@@ -7,7 +7,7 @@
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
   "icons": [
-    { "src": "https://github.com/lil2kki-a.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "https://github.com/lil2kki-a.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "https://raw.githubusercontent.com/lil2kki-a/SNAKE-REMASTERED/refs/heads/main/ic.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "https://raw.githubusercontent.com/lil2kki-a/SNAKE-REMASTERED/refs/heads/main/ic.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
