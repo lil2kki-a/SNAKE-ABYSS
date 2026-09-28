@@ -44,7 +44,7 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
 .overlay.show{opacity:1;pointer-events:auto}
 .overlay.levelup{background:rgba(5,5,5,.68)}
 .panel{display:none;flex-direction:column;align-items:center;gap:clamp(14px,2.2vh,22px);max-width:760px;width:100%;padding:clamp(20px,4vh,40px) clamp(16px,4vw,36px);margin:auto}
-.panel.active{display:flex}
+.panel.active{backdrop-filter: blur(5px);display:flex}
 .title-big{max-height: 38px;font-family:'Special Elite',serif;font-size:clamp(42px,8vh,58px);letter-spacing:.35em;color:#f0f0f0;text-indent:.35em;font-weight:normal}
 .title-small{font-family:'Special Elite',serif;font-size:clamp(13px,1.9vh,16px);letter-spacing:.55em;color:#8a8a8a;text-transform:uppercase;text-indent:.55em;text-align:center}
 .title-mid{font-family:'Special Elite',serif;font-size:clamp(19px,3vh,26px);letter-spacing:.4em;color:#f0f0f0;text-indent:.4em;text-transform:uppercase}
