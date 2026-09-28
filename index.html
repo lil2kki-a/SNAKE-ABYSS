@@ -5,28 +5,29 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SNAKE">
+<meta name="apple-mobile-web-app-title" content="SNAKE ABYSS">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/lil2kki-a/SNAKE-REMASTERED/refs/heads/main/ic.png">
-<link rel="icon" href="https://raw.githubusercontent.com/lil2kki-a/SNAKE-REMASTERED/refs/heads/main/ic.png" type="image/png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/lil2kki-a/SNAKE-ABYSS/refs/heads/main/ic.png">
+<link rel="icon" href="https://raw.githubusercontent.com/lil2kki-a/SNAKE-ABYSS/refs/heads/main/ic.png" type="image/png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="SNAKE — REMASTERED">
+<meta property="og:title" content="SNAKE ABYSS">
 <meta property="og:description" content="Классическая змейка с боссами, магазином, мини-играми и достижениями.">
 <meta property="og:image" content="https://github.com/user-attachments/assets/90d85402-346f-4cee-8c58-755e2c91f9d1">
-<meta property="og:url" content="https://lil2kki-a.github.io/SNAKE-REMASTERED/">
+<meta property="og:url" content="https://lil2kki-a.github.io/SNAKE-ABYSS/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SNAKE — REMASTERED">
+<meta name="twitter:title" content="SNAKE ABYSS">
 <meta name="twitter:description" content="Классическая змейка с боссами и прогрессией.">
 <meta name="twitter:image" content="https://github.com/user-attachments/assets/90d85402-346f-4cee-8c58-755e2c91f9d1">
-<title>SNAKE — REMASTERED</title>
+<title>SNAKE ABYSS</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Cormorant+Garamond:wght@400;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#0a0a0a;color:#e8e8e8;font-family:'Cormorant Garamond',serif;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation;overscroll-behavior:none;color-scheme:dark}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.85) 100%),repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0px,rgba(255,255,255,.012) 1px,transparent 1px,transparent 2px);z-index:50}
-:focus{outline:none}:focus-visible{outline:2px solid #e8c86a;outline-offset:4px}
+:focus{outline:none}
+:focus-visible{outline:1.5px solid rgba(232,200,106,.5);outline-offset:3px}
 .stage{height:100%;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2vh,20px);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);position:relative;touch-action:none}
 .title{font-family:'Special Elite',serif;letter-spacing:.55em;font-size:clamp(15px,2.1vh,19px);color:#9a9a9a;text-transform:uppercase;text-align:center;padding:0 16px}
 .hud{display:flex;gap:clamp(16px,4vw,28px);align-items:baseline;flex-wrap:wrap;justify-content:center;max-width:700px;padding:0 12px}
@@ -108,7 +109,8 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
 .setting-label-row{display:flex;justify-content:space-between;align-items:baseline;font-family:'Special Elite',serif;font-size:clamp(14px,1.9vh,16px);letter-spacing:.22em;color:#ccc;text-transform:uppercase}
 .setting-value{color:#e8c86a;font-size:clamp(14px,1.9vh,16px);letter-spacing:.16em}
 .slider{-webkit-appearance:none;appearance:none;width:100%;height:10px;background:#1a1a1a;border:1px solid #2a2a2a;outline:none;cursor:pointer;touch-action:manipulation;padding:0}
-.slider:focus{outline:none}.slider:focus-visible{outline:2px solid #e8c86a;outline-offset:4px}
+.slider:focus{outline:none}
+.slider:focus-visible{outline:1.5px solid rgba(232,200,106,.5);outline-offset:4px}
 .slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;background:#e8c86a;border:2px solid #0a0a0a;cursor:pointer;box-shadow:0 0 12px rgba(232,200,106,.55);border-radius:50%}
 .slider::-moz-range-thumb{width:26px;height:26px;background:#e8c86a;border:2px solid #0a0a0a;cursor:pointer;box-shadow:0 0 12px rgba(232,200,106,.55);border-radius:50%}
 .setting-divider{width:100%;height:1px;background:#1e1e1e;margin:6px 0}
@@ -176,7 +178,7 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
 <button class="corner-btn" id="btnMute" aria-label="Звук">♪</button>
 
 <div class="stage">
-  <div class="title">S N A K E · R E M A S T E R E D</div>
+  <div class="title">S N A K E · A B Y S S</div>
   <div class="hud">
     <div class="score">СЧЁТ: <span id="score">0</span></div>
     <div class="score">УР. <span id="level">1</span></div>
@@ -205,14 +207,14 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
 <div class="overlay" id="overlay">
   <div class="panel" id="panelSplash">
     <div class="title-big">SNAKE</div>
-    <div class="title-small">REMASTERED</div>
+    <div class="title-small">ABYSS</div>
     <div class="hint" style="max-width:420px;margin-top:10px;color:#8a8a8a">Это включит звук и запустит музыку</div>
     <button class="btn" id="btnSplashContinue" style="margin-top:10px">НАЖМИТЕ ЧТОБЫ ПРОДОЛЖИТЬ</button>
   </div>
 
   <div class="panel" id="panelMenu">
     <div class="title-big">SNAKE</div>
-    <div class="title-small">REMASTERED</div>
+    <div class="title-small">ABYSS</div>
     <div class="stat-row">
       <div class="gold">◈ <span id="menuCoins">0</span></div>
       <div>РЕКОРД <span id="menuBest">0</span></div>
@@ -417,8 +419,8 @@ const panels={splash:$('panelSplash'),menu:$('panelMenu'),pause:$('panelPause'),
 
 const COLORS={normal:[242,242,242],gold:[232,200,106],slow:[127,184,201]};
 const MUSIC_SRC={
-main:['https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Dusty%20Minor.m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Dusty%20corridors%20(1).m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Dusty%20corridors.m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Exploration%20Chip.m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/lonely%208-bit.m4a'],
-boss:['https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/8-Bit%20Demon.m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Boss%20Fight%20(1).m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Boss%20Fight%20(2).m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Boss%20Fight%20Protocol.m4a','https://github.com/lil2kki-a/SNAKE-REMASTERED/raw/refs/heads/main/assests/Boss%20Fight.m4a']};
+main:['https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Dusty%20Minor.m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Dusty%20corridors%20(1).m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Dusty%20corridors.m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Exploration%20Chip.m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/lonely%208-bit.m4a'],
+boss:['https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/8-Bit%20Demon.m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Boss%20Fight%20(1).m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Boss%20Fight%20(2).m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Boss%20Fight%20Protocol.m4a','https://github.com/lil2kki-a/SNAKE-ABYSS/raw/refs/heads/main/assests/Boss%20Fight.m4a']};
 
 const SKINS={
 classic:{name:'Классика',price:0,head:[255,255,255],tail:[100,100,100],eyes:[10,10,10],glow:null,alpha:1,rarity:'common'},
@@ -2169,10 +2171,10 @@ function doResume(){
   lastResumeTime=performance.now();
   if(pauseProtectionLeft>0){
     pauseProtectionLeft--;
-    invulnTimer=PROTECT_MS;pauseSlowTimer=PROTECT_MS;
+    invulnTimer=PROTECT_MS;
     flashText='ЗАЩИТА · ОСТАЛОСЬ '+pauseProtectionLeft;flashTime=1300;
   }else{
-    invulnTimer=0;pauseSlowTimer=0;
+    invulnTimer=0;
     flashText='ЗАЩИТА ИСЧЕРПАНА';flashTime=1000;
   }
   SFX.pauseOff();
@@ -2185,14 +2187,6 @@ function renderHelp(){
   const eventsHTML=EVENTS.map(e=>`<div class="help-line"><span class="help-icon">◆</span><span class="help-desc"><em>${e.name}</em> — ${Math.round(e.dur/1000)} сек</span></div>`).join('');
   helpBody.innerHTML=`
 <div class="help-section"><div class="help-section-title">О ИГРЕ</div><div class="help-text">Классическая змейка с современными механиками: перки с прокачкой, случайные события, магазин косметики, мини-игры, два режима босса и глубокая система достижений. Прогресс сохраняется автоматически.</div></div>
-<div class="help-section"><div class="help-section-title">НОВОЕ В ОБНОВЛЕНИИ</div><div class="help-list">
-<div class="help-list-item"><em>Анти-абьюз паузы</em> — только 4 защитных паузы за забег. Дальше — без защиты.</div>
-<div class="help-list-item"><em>Перки с уровнями</em> — каждый перк можно взять до 3 раз, усиливая эффект.</div>
-<div class="help-list-item"><em>Новые перки</em> — Фаза, Отскок, Двойник, Жадность.</div>
-<div class="help-list-item"><em>Новые улучшения</em> — Наследие, Постоянная удача, Двойной щит, Выбор перка.</div>
-<div class="help-list-item"><em>Сплэш-экран</em> — запускает звук по первому клику (требование браузеров).</div>
-<div class="help-list-item"><em>Музыка засыпает в фоне</em> — при переключении вкладки звук полностью останавливается.</div>
-</div></div>
 <div class="help-section"><div class="help-section-title">С ЧЕГО НАЧАТЬ</div><div class="help-list">
 <div class="help-list-item">Нажми <em>ИГРАТЬ</em> — стартует обычный забег.</div>
 <div class="help-list-item">Собирай <em>еду</em>, не врезайся в стены, себя и препятствия.</div>
@@ -2220,7 +2214,7 @@ function renderHelp(){
 <div class="help-line"><span class="help-icon">◆</span><span class="help-desc"><em>Синяя (ромб)</em> — замедление на 6.5 сек</span></div>
 </div>
 <div class="help-section"><div class="help-section-title">ПАУЗА · АНТИ-АБЬЮЗ</div>
-<div class="help-text">За забег доступно <em>4 защитные паузы</em>. Каждая даёт 3 сек неуязвимости и замедления после возврата.</div>
+<div class="help-text">За забег доступно <em>4 защитные паузы</em>. Каждая даёт 3 сек неуязвимости после возврата.</div>
 <div class="help-text">После исчерпания лимита пауза больше не даёт бонусов — чисто техническая остановка.</div>
 <div class="help-text">Также действует минимальный интервал между паузами (0.9 сек), чтобы исключить спам.</div>
 </div>
@@ -2722,11 +2716,9 @@ document.addEventListener('keydown',e=>{
       }
       if(k==='ArrowUp'||k==='ArrowDown'){
         e.preventDefault();
-        if(canScroll)scrollable.scrollTop+=(k==='ArrowDown'?60:-60);
-        else moveFocus(activePanel,k==='ArrowDown'?1:-1);
+        moveFocus(activePanel,k==='ArrowDown'?1:-1);
         return;
       }
-      if(k===' '||k==='Enter'){e.preventDefault();return;}
       return;
     }
     if(k==='ArrowUp'||k==='ArrowDown'||k==='PageUp'||k==='PageDown'||k==='Home'||k==='End'){
