@@ -175,9 +175,6 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
 @keyframes floatPanel{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 .panel.active{ animation:floatPanel 5s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce){ .panel.active{animation:none!important} }
-.cloud-input{width:100%;background:#0a0a0a;border:1px solid #333;color:#e8e8e8;font-family:'Cormorant Garamond',serif;font-size:17px;padding:14px 16px;outline:none;transition:border-color .2s}
-.cloud-input:focus{border-color:#e8c86a;color:#fff}
-.cloud-input::placeholder{color:#555;letter-spacing:.1em}
 .cloud-block{width:100%;max-width:420px;display:flex;flex-direction:column;gap:12px}
 .cloud-status{font-family:'Special Elite',serif;font-size:clamp(13px,1.8vh,15px);letter-spacing:.22em;color:#888;text-transform:uppercase;text-align:center;min-height:22px}
 .cloud-status.ok{color:#7fb8c9}.cloud-status.err{color:#d98a8a}.cloud-status.info{color:#e8c86a}
@@ -247,14 +244,18 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
       <div class="title-mid">ОБЛАКО</div>
       <div class="coins-badge" id="cloudStatusBadge">☁ ОФФЛАЙН</div>
     </div>
+  
+    <!-- Неавторизованное состояние -->
     <div id="cloudAuthForm" class="cloud-block">
-      <div class="hint" style="color:#8a8a8a;letter-spacing:.14em">Создайте аккаунт или войдите, чтобы сохранять прогресс в облаке. Логин и пароль — любые.</div>
-      <input type="text" class="cloud-input" id="cloudUser" placeholder="Логин" autocomplete="username" autocapitalize="off" spellcheck="false">
-      <input type="password" class="cloud-input" id="cloudPass" placeholder="Пароль" autocomplete="current-password">
-      <button class="btn small" id="btnCloudLogin" style="min-width:100%">ВОЙТИ</button>
-      <button class="btn small" id="btnCloudRegister" style="min-width:100%">СОЗДАТЬ АККАУНТ</button>
+      <div class="hint" style="color:#8a8a8a;letter-spacing:.14em;text-align:center">
+        Нажмите кнопку ниже — откроется окно входа Puter.<br>
+        Там можно войти или создать аккаунт.
+      </div>
+      <button class="btn" id="btnCloudSignIn" style="min-width:100%">☁ ВОЙТИ / СОЗДАТЬ АККАУНТ</button>
       <div class="cloud-status" id="cloudStatus">ГОТОВО К ВХОДУ</div>
     </div>
+  
+    <!-- Авторизованное состояние -->
     <div id="cloudActions" class="cloud-block" style="display:none">
       <div class="cloud-user-badge" id="cloudUserLabel">—</div>
       <div class="cloud-status info" id="cloudStatus2">СИНХРОНИЗАЦИЯ ДОСТУПНА</div>
@@ -263,6 +264,7 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
       <button class="btn small" id="btnCloudAuto" style="min-width:100%">АВТО-СИНХРОН: ВЫКЛ</button>
       <button class="btn small danger" id="btnCloudLogout" style="min-width:100%">ВЫЙТИ</button>
     </div>
+  
     <button class="btn small" id="btnCloudBack">НАЗАД</button>
   </div>
 
@@ -585,7 +587,7 @@ const EVENTS=[
 
 const SAVE_KEY='snake_rm_v9';
 const OLD_KEYS=['snake_rm_v8','snake_rm_v7','snake_rm_rpg_v7','snake_rm_rpg_v6','snake_rm_rpg_v5','snake_rm_rpg_v4','snake_rm_rpg_v3','snake_rm_rpg_v2'];
-const DEFAULT_SAVE=()=>({coins:0,best:0,unlocked:['classic'],active:'classic',unlockedTrails:['none'],activeTrail:'none',unlockedThemes:['classic'],activeTheme:'classic',upgrades:{},achievements:[],stats:{},musicVolume:.5,sfxVolume:1,musicOn:true,sfxOn:true,screenShake:true,particlesOn:true,vibration:true,fastMode:false,minigamesOn:true,perksOn:true,borderDanger:false});
+const DEFAULT_SAVE=()=>({coins:0,best:0,unlocked:['classic'],active:'classic',unlockedTrails:['none'],activeTrail:'none',unlockedThemes:['classic'],activeTheme:'classic',upgrades:{},achievements:[],stats:{},musicVolume:.5,sfxVolume:1,musicOn:true,sfxOn:true,screenShake:true,particlesOn:true,vibration:true,fastMode:false,minigamesOn:true,perksOn:true,borderDanger:false,cloudAutoSync:false});
 let save=DEFAULT_SAVE();
 
 function normalizeSave(s){
@@ -604,6 +606,7 @@ function normalizeSave(s){
   if(!THEMES[out.activeTheme])out.activeTheme='classic';
   out.musicVolume=Math.max(0,Math.min(1,+out.musicVolume||0));
   out.sfxVolume=Math.max(0,Math.min(1,+out.sfxVolume||0));
+  out.cloudAutoSync = !!out.cloudAutoSync;
   return out;
 }
 (function(){
@@ -615,15 +618,50 @@ function normalizeSave(s){
 const persist=()=>{try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));}catch(_){}scheduleCloudSave();};
 
 /* =====================================================
-   ОБЛАЧНОЕ СОХРАНЕНИЕ (Puter.js)
+   ОБЛАЧНОЕ СОХРАНЕНИЕ (Puter.js) — v2
    ===================================================== */
 const CLOUD_FILE='snake_abyss_save.json';
-let puterReady = (typeof puter !== 'undefined');
+const CLOUD_MIN_INTERVAL = 6000;      // не чаще раза в 6 сек
+const CLOUD_MAX_WAIT    = 20000;      // но не позже 20 сек после первого изменения
+const CLOUD_RETRY_DELAY = 5000;
+
 let currentCloudUser = null;
 let cloudAutoSync = false;
-let cloudSaveTimeout = null;
 let cloudBusy = false;
+let cloudLastSave = 0;
+let cloudFirstDirtyAt = 0;            // момент первого несохранённого изменения
+let cloudThrottleTimer = null;
+let cloudPendingSave = false;         // есть несохранённые изменения?
+let cloudSyncIndicatorEl = null;
 
+/* --- Индикатор синхронизации (маленький значок в углу) --- */
+function ensureCloudIndicator(){
+  if(cloudSyncIndicatorEl) return cloudSyncIndicatorEl;
+  const el = document.createElement('div');
+  el.id = 'cloudSyncIndicator';
+  el.style.cssText = `
+    position:fixed; top:calc(env(safe-area-inset-top) + 12px);
+    left:calc(env(safe-area-inset-left) + 12px);
+    font-family:'Special Elite',serif; font-size:14px; letter-spacing:.16em;
+    color:#7fb8c9; background:rgba(10,10,10,.78);
+    border:1px solid #2a3a44; padding:6px 12px; pointer-events:none;
+    opacity:0; transition:opacity .3s ease; z-index:54; text-transform:uppercase;
+  `;
+  document.body.appendChild(el);
+  cloudSyncIndicatorEl = el;
+  return el;
+}
+let indicatorHideTimer = null;
+function showCloudIndicator(text, color){
+  const el = ensureCloudIndicator();
+  el.textContent = text;
+  el.style.color = color || '#7fb8c9';
+  el.style.opacity = '1';
+  if(indicatorHideTimer) clearTimeout(indicatorHideTimer);
+  indicatorHideTimer = setTimeout(()=>{ el.style.opacity='0'; }, 2200);
+}
+
+/* --- Статус внутри панели --- */
 function cloudSetStatus(text, cls){
   const a = $('cloudStatus');
   const b = $('cloudStatus2');
@@ -635,6 +673,7 @@ function cloudSetStatus(text, cls){
   }
 }
 
+/* --- Аутентификация --- */
 async function cloudSignIn(username, password, isRegister){
   if(typeof puter === 'undefined'){
     cloudSetStatus('СЕРВИС ОБЛАКА НЕДОСТУПЕН', 'err');
@@ -661,21 +700,37 @@ async function cloudSignOut(){
   }catch(_){}
   currentCloudUser = null;
   cloudAutoSync = false;
+  save.cloudAutoSync = false;
+  clearCloudTimers();
+  persist();
 }
 
+/* --- Само сохранение --- */
 async function cloudSaveNow(){
   if(cloudBusy) return false;
   if(!currentCloudUser) return false;
   if(typeof puter === 'undefined') return false;
+  if(!cloudPendingSave) return true;   // нечего сохранять
+
   cloudBusy = true;
+  // Запоминаем текущий маркер, чтобы понять — были ли новые изменения за время отправки
+  cloudPendingSave = false;
+
   try{
     const data = JSON.stringify(save);
     await puter.fs.write(CLOUD_FILE, data);
+    cloudLastSave = Date.now();
+    cloudFirstDirtyAt = 0;
     cloudSetStatus('СОХРАНЕНО · ' + new Date().toLocaleTimeString(), 'ok');
+    showCloudIndicator('☁ СОХРАНЕНО', '#7fb8c9');
     return true;
   }catch(e){
     console.error('Cloud save error:', e);
-    cloudSetStatus('ОШИБКА СОХРАНЕНИЯ', 'err');
+    // Возвращаем маркер — попробуем позже
+    cloudPendingSave = true;
+    cloudSetStatus('ОШИБКА СОХРАНЕНИЯ · ПОВТОР...', 'err');
+    showCloudIndicator('☁ ОШИБКА', '#d98a8a');
+    if(cloudAutoSync) setTimeout(()=>{ if(cloudPendingSave && currentCloudUser) scheduleCloudSave(); }, CLOUD_RETRY_DELAY);
     return false;
   }finally{
     cloudBusy = false;
@@ -696,12 +751,16 @@ async function cloudLoadNow(){
     else text = String(content);
     const data = JSON.parse(text);
     if(!data || typeof data !== 'object') throw new Error('bad data');
+    const keepAuto = save.cloudAutoSync;   // не перезаписываем локальный тумблер
     save = normalizeSave(data);
+    save.cloudAutoSync = keepAuto;
+    cloudAutoSync = keepAuto;
     persist();
     updateHUD();
     renderSettings();
     bgCacheDirty = true;
     cloudSetStatus('ЗАГРУЖЕНО · ' + new Date().toLocaleTimeString(), 'ok');
+    showCloudIndicator('☁ ЗАГРУЖЕНО', '#7fb8c9');
     return true;
   }catch(e){
     console.error('Cloud load error:', e);
@@ -712,58 +771,87 @@ async function cloudLoadNow(){
   }
 }
 
-function scheduleCloudSave(){
-  if(!cloudAutoSync || !currentCloudUser) return;
-  if(cloudSaveTimeout) clearTimeout(cloudSaveTimeout);
-  cloudSaveTimeout = setTimeout(()=>{ cloudSaveNow(); }, 4000);
+/* --- Планировщик с throttle + max wait --- */
+function clearCloudTimers(){
+  if(cloudThrottleTimer){ clearTimeout(cloudThrottleTimer); cloudThrottleTimer = null; }
+  if(cloudPendingSave === undefined) cloudPendingSave = false;
 }
 
+function scheduleCloudSave(){
+  if(!cloudAutoSync || !currentCloudUser) return;
+  if(typeof puter === 'undefined') return;
+
+  const now = Date.now();
+  if(!cloudFirstDirtyAt) cloudFirstDirtyAt = now;
+  cloudPendingSave = true;
+
+  // Если с последнего сохранения прошло достаточно времени — сохраняем сразу
+  const sinceLast = now - cloudLastSave;
+  const sinceFirstDirty = now - cloudFirstDirtyAt;
+
+  if(sinceLast >= CLOUD_MIN_INTERVAL || sinceFirstDirty >= CLOUD_MAX_WAIT){
+    cloudFirstDirtyAt = 0;
+    cloudSaveNow();
+    return;
+  }
+
+  // Иначе — планируем один отложенный вызов
+  if(cloudThrottleTimer) return;
+  const delay = Math.min(CLOUD_MIN_INTERVAL - sinceLast, CLOUD_MAX_WAIT - sinceFirstDirty);
+  cloudThrottleTimer = setTimeout(()=>{
+    cloudThrottleTimer = null;
+    if(cloudPendingSave && currentCloudUser) cloudSaveNow();
+  }, Math.max(500, delay));
+}
+
+/* --- UI панели --- */
 function showCloudAuth(){
   $('cloudAuthForm').style.display = 'flex';
   $('cloudActions').style.display = 'none';
   cloudSetStatus('ГОТОВО К ВХОДУ', '');
 }
-
 function showCloudActions(){
   $('cloudAuthForm').style.display = 'none';
   $('cloudActions').style.display = 'flex';
   $('cloudUserLabel').textContent = 'ВЫ ВОШЛИ КАК: ' + currentCloudUser;
   $('btnCloudAuto').textContent = 'АВТО-СИНХРОН: ' + (cloudAutoSync ? 'ВКЛ' : 'ВЫКЛ');
   $('btnCloudAuto').classList.toggle('on', cloudAutoSync);
-  cloudSetStatus('СИНХРОНИЗАЦИЯ ДОСТУПНА', 'info');
+  cloudSetStatus(cloudAutoSync ? 'АВТО-СИНХРОН ВКЛЮЧЁН' : 'СИНХРОНИЗАЦИЯ ДОСТУПНА', cloudAutoSync ? 'ok' : 'info');
 }
-
 function openCloudPanel(){
   if(currentCloudUser) showCloudActions();
   else showCloudAuth();
   showPanel('cloud');
 }
 
+/* --- Слушатели --- */
 $('btnCloud').addEventListener('click', ()=>{ SFX.uiSelect(); openCloudPanel(); });
 $('btnCloudBack').addEventListener('click', ()=>{ SFX.uiClick(); showMenu(); });
 
-$('btnCloudLogin').addEventListener('click', async ()=>{
-  const u = $('cloudUser').value.trim();
-  const p = $('cloudPass').value;
-  if(!u || !p){ SFX.denied(); cloudSetStatus('ВВЕДИТЕ ЛОГИН И ПАРОЛЬ', 'err'); return; }
-  cloudSetStatus('ВХОД...', 'info');
-  const ok = await cloudSignIn(u, p, false);
-  if(ok){ SFX.uiSelect(); showCloudActions(); }
-  else { SFX.denied(); }
-});
-
-$('btnCloudRegister').addEventListener('click', async ()=>{
-  const u = $('cloudUser').value.trim();
-  const p = $('cloudPass').value;
-  if(!u || !p){ SFX.denied(); cloudSetStatus('ВВЕДИТЕ ЛОГИН И ПАРОЛЬ', 'err'); return; }
-  cloudSetStatus('СОЗДАНИЕ АККАУНТА...', 'info');
-  const ok = await cloudSignIn(u, p, true);
-  if(ok){ SFX.purchase(); showCloudActions(); }
-  else { SFX.denied(); }
+/* Убираем старые btnCloudLogin и btnCloudRegister, добавляем одну кнопку */
+$('btnCloudSignIn').addEventListener('click', async ()=>{
+  if(typeof puter === 'undefined'){
+    cloudSetStatus('СЕРВИС ОБЛАКА НЕДОСТУПЕН', 'err');
+    SFX.denied();
+    return;
+  }
+  cloudSetStatus('ОТКРЫТИЕ ОКНА ВХОДА...', 'info');
+  try{
+    const user = await puter.auth.signIn();  // ← открывает родное окно Puter
+    currentCloudUser = (user && (user.username || user.email)) || 'user';
+    SFX.uiSelect();
+    showCloudActions();
+  }catch(e){
+    console.error('Cloud auth error:', e);
+    cloudSetStatus('ВХОД ОТМЕНЁН ИЛИ ОШИБКА', 'err');
+    SFX.denied();
+  }
 });
 
 $('btnCloudUpload').addEventListener('click', async ()=>{
   cloudSetStatus('ОТПРАВКА...', 'info');
+  cloudPendingSave = true;   // форсируем отправку
+  cloudFirstDirtyAt = 0;
   const ok = await cloudSaveNow();
   if(ok){ SFX.purchase(); flashText='СОХРАНЕНО В ОБЛАКЕ'; flashTime=1500; }
   else { SFX.denied(); }
@@ -778,11 +866,19 @@ $('btnCloudDownload').addEventListener('click', async ()=>{
 
 $('btnCloudAuto').addEventListener('click', ()=>{
   cloudAutoSync = !cloudAutoSync;
+  save.cloudAutoSync = cloudAutoSync;
   $('btnCloudAuto').textContent = 'АВТО-СИНХРОН: ' + (cloudAutoSync ? 'ВКЛ' : 'ВЫКЛ');
   $('btnCloudAuto').classList.toggle('on', cloudAutoSync);
   SFX.uiSelect();
-  if(cloudAutoSync){ cloudSetStatus('АВТО-СИНХРОН ВКЛЮЧЁН', 'ok'); cloudSaveNow(); }
-  else cloudSetStatus('АВТО-СИНХРОН ВЫКЛЮЧЕН', '');
+  if(cloudAutoSync){
+    cloudSetStatus('АВТО-СИНХРОН ВКЛЮЧЁН', 'ok');
+    cloudPendingSave = true;
+    cloudSaveNow();
+  } else {
+    cloudSetStatus('АВТО-СИНХРОН ВЫКЛЮЧЕН', '');
+    clearCloudTimers();
+  }
+  persist();
 });
 
 $('btnCloudLogout').addEventListener('click', async ()=>{
@@ -792,16 +888,30 @@ $('btnCloudLogout').addEventListener('click', async ()=>{
   showCloudAuth();
 });
 
-// Проверяем существующую сессию Puter при загрузке
+/* --- Восстановление сессии при загрузке --- */
 (async ()=>{
-  if(typeof puter === 'undefined'){ cloudSetStatus('ОБЛАКО НЕДОСТУПНО (оффлайн режим)', 'err'); return; }
+  // Восстанавливаем флаг из сохранения
+  cloudAutoSync = !!save.cloudAutoSync;
+
+  if(typeof puter === 'undefined'){
+    cloudSetStatus('ОБЛАКО НЕДОСТУПНО (оффлайн режим)', 'err');
+    return;
+  }
   try{
     const signed = await puter.auth.isSignedIn();
     if(signed){
       const u = await puter.auth.getUser();
       currentCloudUser = (u && (u.username || u.email)) || 'user';
-      // если панель облака сейчас открыта — обновим UI
+      // Если авто-синк был включён — сразу отправим актуальное состояние
+      if(cloudAutoSync){
+        cloudPendingSave = true;
+        setTimeout(()=>cloudSaveNow(), 1500);
+      }
       if(screen === 'cloud') showCloudActions();
+    } else {
+      // Сессия протухла — выключаем авто-синк, чтобы не спамить ошибками
+      cloudAutoSync = false;
+      save.cloudAutoSync = false;
     }
   }catch(e){ /* не критично */ }
 })();
