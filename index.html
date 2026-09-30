@@ -244,8 +244,6 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
       <div class="title-mid">ОБЛАКО</div>
       <div class="coins-badge" id="cloudStatusBadge">☁ ОФФЛАЙН</div>
     </div>
-  
-    <!-- Неавторизованное состояние -->
     <div id="cloudAuthForm" class="cloud-block">
       <div class="hint" style="color:#8a8a8a;letter-spacing:.14em;text-align:center">
         Нажмите кнопку ниже — откроется окно входа Puter.<br>
@@ -254,8 +252,6 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
       <button class="btn" id="btnCloudSignIn" style="min-width:100%">☁ ВОЙТИ / СОЗДАТЬ АККАУНТ</button>
       <div class="cloud-status" id="cloudStatus">ГОТОВО К ВХОДУ</div>
     </div>
-  
-    <!-- Авторизованное состояние -->
     <div id="cloudActions" class="cloud-block" style="display:none">
       <div class="cloud-user-badge" id="cloudUserLabel">—</div>
       <div class="cloud-status info" id="cloudStatus2">СИНХРОНИЗАЦИЯ ДОСТУПНА</div>
@@ -264,7 +260,6 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
       <button class="btn small" id="btnCloudAuto" style="min-width:100%">АВТО-СИНХРОН: ВЫКЛ</button>
       <button class="btn small danger" id="btnCloudLogout" style="min-width:100%">ВЫЙТИ</button>
     </div>
-  
     <button class="btn small" id="btnCloudBack">НАЗАД</button>
   </div>
 
@@ -286,12 +281,12 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
       <div class="perk-card" id="bossCardNapoleon" tabindex="0" role="button" aria-label="Босс Наполеон">
         <div class="perk-icon">♛</div>
         <div class="perk-name">НАПОЛЕОН</div>
-        <div class="perk-desc">Гигантский торт. 5 фаз: бисквит, крем, карамель, вишня, ярость. 250 HP.</div>
+        <div class="perk-desc">Гигантский торт. 5 фаз. <em>170 HP</em>. Бесплатный щит на старте и +1 за фазу.</div>
       </div>
       <div class="perk-card shadow-card" id="bossCardShadow" tabindex="0" role="button" aria-label="Босс Тень">
         <div class="perk-icon">✷</div>
         <div class="perk-name">ТЕНЬ</div>
-        <div class="perk-desc">Сингулярность-ассимилятор. Хаос, гравитация, разломы, клоны. 320 HP.</div>
+        <div class="perk-desc">Сингулярность-ассимилятор. <em>220 HP</em>. Стартовый щит и щит за каждую фазу.</div>
       </div>
     </div>
     <button class="btn small" id="btnBossSelectBack">НАЗАД</button>
@@ -518,18 +513,26 @@ const UPGRADES=[
 {id:'perkChoice2',icon:'☷',name:'Мастер выбора',desc:'Ещё +1 вариант (требует «Широкий выбор»)',price:14000}];
 
 const PERKS=[
-{id:'shield',icon:'⛨',name:'Щит',desc:'Поглощает смертельный удар',maxLevel:3,levels:['1 щит','2 щита','3 щита']},
-{id:'magnet',icon:'◎',name:'Магнит',desc:'Притягивает еду',maxLevel:3,levels:['радиус 2','радиус 3','радиус 4']},
-{id:'mult',icon:'×',name:'Множитель',desc:'Больше очков за еду',maxLevel:3,levels:['×1.5','×2.0','×2.5']},
-{id:'goldrush',icon:'★',name:'Лихорадка',desc:'Больше золотой еды',maxLevel:3,levels:['+15%','+25%','+35%']},
-{id:'chrono',icon:'⏱',name:'Хроно',desc:'Время замедляется',maxLevel:3,levels:['−10%','−18%','−25%']},
-{id:'vampire',icon:'♥',name:'Вампиризм',desc:'+очки за еду',maxLevel:3,levels:['+1','+2','+3']},
-{id:'luck',icon:'✦',name:'Удача',desc:'Шанс удвоить очки',maxLevel:3,levels:['20%','40%','60%']},
-{id:'squeeze',icon:'↓',name:'Сжатие',desc:'Укоротить хвост',maxLevel:3,levels:['−3','−3 ещё','−4']},
-{id:'phase',icon:'◆',name:'Фаза',desc:'Неуязвимость после золотой еды',maxLevel:3,levels:['1.5с','2.5с','3.5с']},
-{id:'bounce',icon:'↺',name:'Отскок',desc:'Отражает удар о стену',maxLevel:3,levels:['1 раз','2 раза','3 раза']},
-{id:'twin',icon:'⋈',name:'Двойник',desc:'Доп. еда на поле',maxLevel:3,levels:['+1','+2','+3']},
-{id:'greed',icon:'◈',name:'Жадность',desc:'+монеты за еду',maxLevel:3,levels:['+1','+2','+3']}];
+{id:'shield',icon:'⛨',name:'Щит',desc:'Поглощает смертельный удар',maxLevel:4,levels:['1 щит','2 щита','3 щита','4 щита']},
+{id:'magnet',icon:'◎',name:'Магнит',desc:'Притягивает еду с большего радиуса',maxLevel:4,levels:['радиус 2','радиус 3','радиус 4','радиус 5']},
+{id:'mult',icon:'×',name:'Множитель',desc:'Очки за еду умножаются',maxLevel:4,levels:['×1.5','×2.0','×2.5','×3.0']},
+{id:'goldrush',icon:'★',name:'Лихорадка',desc:'Больше золотой еды на поле',maxLevel:3,levels:['+15%','+25%','+35%']},
+{id:'chrono',icon:'⏱',name:'Хроно',desc:'Время игры замедляется',maxLevel:3,levels:['−10%','−18%','−25%']},
+{id:'vampire',icon:'♥',name:'Вампиризм',desc:'Каждая еда даёт больше очков',maxLevel:4,levels:['+1','+2','+3','+4']},
+{id:'luck',icon:'✦',name:'Удача',desc:'Шанс удвоить очки за еду',maxLevel:4,levels:['20%','40%','60%','80%']},
+{id:'squeeze',icon:'↓',name:'Сжатие',desc:'Укорачивает хвост при получении',maxLevel:3,levels:['−3','−5','−8']},
+{id:'phase',icon:'◆',name:'Фаза',desc:'Неуязвимость после золотой еды',maxLevel:4,levels:['1.5с','2.5с','3.5с','4.5с']},
+{id:'bounce',icon:'↺',name:'Отскок',desc:'Отражает удар о границу',maxLevel:4,levels:['1 раз','2 раза','3 раза','4 раза']},
+{id:'twin',icon:'⋈',name:'Двойник',desc:'Дополнительная еда на поле',maxLevel:4,levels:['+1','+2','+3','+4']},
+{id:'greed',icon:'◈',name:'Жадность',desc:'+монеты за каждую еду',maxLevel:4,levels:['+1','+2','+3','+4']},
+{id:'ghost',icon:'♅',name:'Призрак',desc:'Шанс пройти сквозь свой хвост',maxLevel:3,levels:['15%','30%','45%']},
+{id:'regen',icon:'♻',name:'Регенерация',desc:'Периодически укорачивает хвост',maxLevel:3,levels:['кажд. 12с','кажд. 8с','кажд. 5с']},
+{id:'cascade',icon:'≫',name:'Каскад',desc:'Каждая N-я еда даёт двойные очки',maxLevel:3,levels:['кажд. 6-я','кажд. 5-я','кажд. 4-я']},
+{id:'combo',icon:'∞',name:'Комбо',desc:'Комбо длится дольше, множитель выше',maxLevel:3,levels:['+1с, макс ×10','+2с, макс ×12','+3с, макс ×15']},
+{id:'blast',icon:'✸',name:'Взрыв',desc:'Еда уничтожает препятствия рядом',maxLevel:3,levels:['радиус 1','радиус 2','радиус 3']},
+{id:'portals',icon:'◍',name:'Порталы',desc:'Шанс пройти сквозь границу поля',maxLevel:3,levels:['10%','20%','30%']},
+{id:'crit',icon:'⚔',name:'Крит. удар',desc:'Шанс удвоить урон по боссу',maxLevel:3,levels:['15%','30%','45%']},
+{id:'resonance',icon:'❂',name:'Резонанс',desc:'Множитель растёт со временем забега',maxLevel:3,levels:['+1% / 10с','+2% / 10с','+3% / 10с']}];
 
 const ACHIEVEMENTS=[
 {id:'first',name:'Первый шаг',desc:'Набрать 1 очко',badge:'★',check:s=>s.score>=1},
@@ -618,306 +621,143 @@ function normalizeSave(s){
 const persist=()=>{try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));}catch(_){}scheduleCloudSave();};
 
 /* =====================================================
-   ОБЛАЧНОЕ СОХРАНЕНИЕ (Puter.js) — v2
+   ОБЛАЧНОЕ СОХРАНЕНИЕ (Puter.js)
    ===================================================== */
 const CLOUD_FILE='snake_abyss_save.json';
-const CLOUD_MIN_INTERVAL = 6000;      // не чаще раза в 6 сек
-const CLOUD_MAX_WAIT    = 20000;      // но не позже 20 сек после первого изменения
-const CLOUD_RETRY_DELAY = 5000;
+const CLOUD_MIN_INTERVAL=6000,CLOUD_MAX_WAIT=20000,CLOUD_RETRY_DELAY=5000;
+let currentCloudUser=null,cloudAutoSync=false,cloudBusy=false,cloudLastSave=0,cloudFirstDirtyAt=0,cloudThrottleTimer=null,cloudPendingSave=false,cloudSyncIndicatorEl=null,indicatorHideTimer=null;
 
-let currentCloudUser = null;
-let cloudAutoSync = false;
-let cloudBusy = false;
-let cloudLastSave = 0;
-let cloudFirstDirtyAt = 0;            // момент первого несохранённого изменения
-let cloudThrottleTimer = null;
-let cloudPendingSave = false;         // есть несохранённые изменения?
-let cloudSyncIndicatorEl = null;
-
-/* --- Индикатор синхронизации (маленький значок в углу) --- */
 function ensureCloudIndicator(){
-  if(cloudSyncIndicatorEl) return cloudSyncIndicatorEl;
-  const el = document.createElement('div');
-  el.id = 'cloudSyncIndicator';
-  el.style.cssText = `
-    position:fixed; top:calc(env(safe-area-inset-top) + 12px);
-    left:calc(env(safe-area-inset-left) + 12px);
-    font-family:'Special Elite',serif; font-size:14px; letter-spacing:.16em;
-    color:#7fb8c9; background:rgba(10,10,10,.78);
-    border:1px solid #2a3a44; padding:6px 12px; pointer-events:none;
-    opacity:0; transition:opacity .3s ease; z-index:54; text-transform:uppercase;
-  `;
-  document.body.appendChild(el);
-  cloudSyncIndicatorEl = el;
-  return el;
+  if(cloudSyncIndicatorEl)return cloudSyncIndicatorEl;
+  const el=document.createElement('div');
+  el.id='cloudSyncIndicator';
+  el.style.cssText=`position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:calc(env(safe-area-inset-left) + 12px);font-family:'Special Elite',serif;font-size:14px;letter-spacing:.16em;color:#7fb8c9;background:rgba(10,10,10,.78);border:1px solid #2a3a44;padding:6px 12px;pointer-events:none;opacity:0;transition:opacity .3s ease;z-index:54;text-transform:uppercase;`;
+  document.body.appendChild(el);cloudSyncIndicatorEl=el;return el;
 }
-let indicatorHideTimer = null;
-function showCloudIndicator(text, color){
-  const el = ensureCloudIndicator();
-  el.textContent = text;
-  el.style.color = color || '#7fb8c9';
-  el.style.opacity = '1';
-  if(indicatorHideTimer) clearTimeout(indicatorHideTimer);
-  indicatorHideTimer = setTimeout(()=>{ el.style.opacity='0'; }, 2200);
+function showCloudIndicator(text,color){
+  const el=ensureCloudIndicator();el.textContent=text;el.style.color=color||'#7fb8c9';el.style.opacity='1';
+  if(indicatorHideTimer)clearTimeout(indicatorHideTimer);
+  indicatorHideTimer=setTimeout(()=>{el.style.opacity='0';},2200);
 }
-
-/* --- Статус внутри панели --- */
-function cloudSetStatus(text, cls){
-  const a = $('cloudStatus');
-  const b = $('cloudStatus2');
-  const badge = $('cloudStatusBadge');
-  [a,b].forEach(el=>{ if(el){ el.textContent = text; el.className = 'cloud-status' + (cls ? ' '+cls : ''); }});
-  if(badge){
-    if(currentCloudUser){ badge.textContent = '☁ ' + currentCloudUser; badge.style.color = '#7fb8c9'; }
-    else { badge.textContent = '☁ ОФФЛАЙН'; badge.style.color = ''; }
-  }
+function cloudSetStatus(text,cls){
+  const a=$('cloudStatus'),b=$('cloudStatus2'),badge=$('cloudStatusBadge');
+  [a,b].forEach(el=>{if(el){el.textContent=text;el.className='cloud-status'+(cls?' '+cls:'');}});
+  if(badge){if(currentCloudUser){badge.textContent='☁ '+currentCloudUser;badge.style.color='#7fb8c9';}else{badge.textContent='☁ ОФФЛАЙН';badge.style.color='';}}
 }
-
-/* --- Аутентификация --- */
-async function cloudSignIn(username, password, isRegister){
-  if(typeof puter === 'undefined'){
-    cloudSetStatus('СЕРВИС ОБЛАКА НЕДОСТУПЕН', 'err');
-    return false;
-  }
-  try{
-    if(isRegister){
-      try{ await puter.auth.signUp(username, password); }
-      catch(e){ /* уже существует — пробуем войти */ }
-    }
-    const user = await puter.auth.signIn(username, password);
-    currentCloudUser = (user && (user.username || user.email)) || username;
-    return true;
-  }catch(e){
-    console.error('Cloud auth error:', e);
-    cloudSetStatus('ОШИБКА: ' + (e && e.message ? e.message : 'проверьте данные'), 'err');
-    return false;
-  }
-}
-
 async function cloudSignOut(){
-  try{
-    if(typeof puter !== 'undefined' && puter.auth) await puter.auth.signOut();
-  }catch(_){}
-  currentCloudUser = null;
-  cloudAutoSync = false;
-  save.cloudAutoSync = false;
-  clearCloudTimers();
-  persist();
+  try{if(typeof puter!=='undefined'&&puter.auth)await puter.auth.signOut();}catch(_){}
+  currentCloudUser=null;cloudAutoSync=false;save.cloudAutoSync=false;clearCloudTimers();persist();
 }
-
-/* --- Само сохранение --- */
 async function cloudSaveNow(){
-  if(cloudBusy) return false;
-  if(!currentCloudUser) return false;
-  if(typeof puter === 'undefined') return false;
-  if(!cloudPendingSave) return true;   // нечего сохранять
-
-  cloudBusy = true;
-  // Запоминаем текущий маркер, чтобы понять — были ли новые изменения за время отправки
-  cloudPendingSave = false;
-
+  if(cloudBusy||!currentCloudUser||typeof puter==='undefined')return false;
+  if(!cloudPendingSave)return true;
+  cloudBusy=true;cloudPendingSave=false;
   try{
-    const data = JSON.stringify(save);
-    await puter.fs.write(CLOUD_FILE, data);
-    cloudLastSave = Date.now();
-    cloudFirstDirtyAt = 0;
-    cloudSetStatus('СОХРАНЕНО · ' + new Date().toLocaleTimeString(), 'ok');
-    showCloudIndicator('☁ СОХРАНЕНО', '#7fb8c9');
-    return true;
+    await puter.fs.write(CLOUD_FILE,JSON.stringify(save));
+    cloudLastSave=Date.now();cloudFirstDirtyAt=0;
+    cloudSetStatus('СОХРАНЕНО · '+new Date().toLocaleTimeString(),'ok');
+    showCloudIndicator('☁ СОХРАНЕНО','#7fb8c9');return true;
   }catch(e){
-    console.error('Cloud save error:', e);
-    // Возвращаем маркер — попробуем позже
-    cloudPendingSave = true;
-    cloudSetStatus('ОШИБКА СОХРАНЕНИЯ · ПОВТОР...', 'err');
-    showCloudIndicator('☁ ОШИБКА', '#d98a8a');
-    if(cloudAutoSync) setTimeout(()=>{ if(cloudPendingSave && currentCloudUser) scheduleCloudSave(); }, CLOUD_RETRY_DELAY);
+    console.error('Cloud save error:',e);cloudPendingSave=true;
+    cloudSetStatus('ОШИБКА СОХРАНЕНИЯ · ПОВТОР...','err');
+    showCloudIndicator('☁ ОШИБКА','#d98a8a');
+    if(cloudAutoSync)setTimeout(()=>{if(cloudPendingSave&&currentCloudUser)scheduleCloudSave();},CLOUD_RETRY_DELAY);
     return false;
-  }finally{
-    cloudBusy = false;
-  }
+  }finally{cloudBusy=false;}
 }
-
 async function cloudLoadNow(){
-  if(cloudBusy) return false;
-  if(!currentCloudUser) return false;
-  if(typeof puter === 'undefined') return false;
-  cloudBusy = true;
+  if(cloudBusy||!currentCloudUser||typeof puter==='undefined')return false;
+  cloudBusy=true;
   try{
-    const content = await puter.fs.read(CLOUD_FILE);
+    const content=await puter.fs.read(CLOUD_FILE);
     let text;
-    if(typeof content === 'string') text = content;
-    else if(content && content.text) text = await content.text();
-    else if(content && content.blob) text = await content.blob().then(b=>b.text());
-    else text = String(content);
-    const data = JSON.parse(text);
-    if(!data || typeof data !== 'object') throw new Error('bad data');
-    const keepAuto = save.cloudAutoSync;   // не перезаписываем локальный тумблер
-    save = normalizeSave(data);
-    save.cloudAutoSync = keepAuto;
-    cloudAutoSync = keepAuto;
-    persist();
-    updateHUD();
-    renderSettings();
-    bgCacheDirty = true;
-    cloudSetStatus('ЗАГРУЖЕНО · ' + new Date().toLocaleTimeString(), 'ok');
-    showCloudIndicator('☁ ЗАГРУЖЕНО', '#7fb8c9');
-    return true;
+    if(typeof content==='string')text=content;
+    else if(content&&content.text)text=await content.text();
+    else if(content&&content.blob)text=await content.blob().then(b=>b.text());
+    else text=String(content);
+    const data=JSON.parse(text);
+    if(!data||typeof data!=='object')throw new Error('bad data');
+    const keepAuto=save.cloudAutoSync;
+    save=normalizeSave(data);save.cloudAutoSync=keepAuto;cloudAutoSync=keepAuto;
+    persist();updateHUD();renderSettings();bgCacheDirty=true;
+    cloudSetStatus('ЗАГРУЖЕНО · '+new Date().toLocaleTimeString(),'ok');
+    showCloudIndicator('☁ ЗАГРУЖЕНО','#7fb8c9');return true;
   }catch(e){
-    console.error('Cloud load error:', e);
-    cloudSetStatus('НЕТ СОХРАНЕНИЯ ИЛИ ОШИБКА', 'err');
-    return false;
-  }finally{
-    cloudBusy = false;
-  }
+    console.error('Cloud load error:',e);
+    cloudSetStatus('НЕТ СОХРАНЕНИЯ ИЛИ ОШИБКА','err');return false;
+  }finally{cloudBusy=false;}
 }
-
-/* --- Планировщик с throttle + max wait --- */
-function clearCloudTimers(){
-  if(cloudThrottleTimer){ clearTimeout(cloudThrottleTimer); cloudThrottleTimer = null; }
-  if(cloudPendingSave === undefined) cloudPendingSave = false;
-}
-
+function clearCloudTimers(){if(cloudThrottleTimer){clearTimeout(cloudThrottleTimer);cloudThrottleTimer=null;}cloudPendingSave=false;}
 function scheduleCloudSave(){
-  if(!cloudAutoSync || !currentCloudUser) return;
-  if(typeof puter === 'undefined') return;
-
-  const now = Date.now();
-  if(!cloudFirstDirtyAt) cloudFirstDirtyAt = now;
-  cloudPendingSave = true;
-
-  // Если с последнего сохранения прошло достаточно времени — сохраняем сразу
-  const sinceLast = now - cloudLastSave;
-  const sinceFirstDirty = now - cloudFirstDirtyAt;
-
-  if(sinceLast >= CLOUD_MIN_INTERVAL || sinceFirstDirty >= CLOUD_MAX_WAIT){
-    cloudFirstDirtyAt = 0;
-    cloudSaveNow();
-    return;
-  }
-
-  // Иначе — планируем один отложенный вызов
-  if(cloudThrottleTimer) return;
-  const delay = Math.min(CLOUD_MIN_INTERVAL - sinceLast, CLOUD_MAX_WAIT - sinceFirstDirty);
-  cloudThrottleTimer = setTimeout(()=>{
-    cloudThrottleTimer = null;
-    if(cloudPendingSave && currentCloudUser) cloudSaveNow();
-  }, Math.max(500, delay));
+  if(!cloudAutoSync||!currentCloudUser||typeof puter==='undefined')return;
+  const now=Date.now();
+  if(!cloudFirstDirtyAt)cloudFirstDirtyAt=now;
+  cloudPendingSave=true;
+  const sinceLast=now-cloudLastSave,sinceFirstDirty=now-cloudFirstDirtyAt;
+  if(sinceLast>=CLOUD_MIN_INTERVAL||sinceFirstDirty>=CLOUD_MAX_WAIT){cloudFirstDirtyAt=0;cloudSaveNow();return;}
+  if(cloudThrottleTimer)return;
+  const delay=Math.min(CLOUD_MIN_INTERVAL-sinceLast,CLOUD_MAX_WAIT-sinceFirstDirty);
+  cloudThrottleTimer=setTimeout(()=>{cloudThrottleTimer=null;if(cloudPendingSave&&currentCloudUser)cloudSaveNow();},Math.max(500,delay));
 }
-
-/* --- UI панели --- */
-function showCloudAuth(){
-  $('cloudAuthForm').style.display = 'flex';
-  $('cloudActions').style.display = 'none';
-  cloudSetStatus('ГОТОВО К ВХОДУ', '');
-}
+function showCloudAuth(){$('cloudAuthForm').style.display='flex';$('cloudActions').style.display='none';cloudSetStatus('ГОТОВО К ВХОДУ','');}
 function showCloudActions(){
-  $('cloudAuthForm').style.display = 'none';
-  $('cloudActions').style.display = 'flex';
-  $('cloudUserLabel').textContent = 'ВЫ ВОШЛИ КАК: ' + currentCloudUser;
-  $('btnCloudAuto').textContent = 'АВТО-СИНХРОН: ' + (cloudAutoSync ? 'ВКЛ' : 'ВЫКЛ');
-  $('btnCloudAuto').classList.toggle('on', cloudAutoSync);
-  cloudSetStatus(cloudAutoSync ? 'АВТО-СИНХРОН ВКЛЮЧЁН' : 'СИНХРОНИЗАЦИЯ ДОСТУПНА', cloudAutoSync ? 'ok' : 'info');
+  $('cloudAuthForm').style.display='none';$('cloudActions').style.display='flex';
+  $('cloudUserLabel').textContent='ВЫ ВОШЛИ КАК: '+currentCloudUser;
+  $('btnCloudAuto').textContent='АВТО-СИНХРОН: '+(cloudAutoSync?'ВКЛ':'ВЫКЛ');
+  $('btnCloudAuto').classList.toggle('on',cloudAutoSync);
+  cloudSetStatus(cloudAutoSync?'АВТО-СИНХРОН ВКЛЮЧЁН':'СИНХРОНИЗАЦИЯ ДОСТУПНА',cloudAutoSync?'ok':'info');
 }
-function openCloudPanel(){
-  if(currentCloudUser) showCloudActions();
-  else showCloudAuth();
-  showPanel('cloud');
-}
+function openCloudPanel(){if(currentCloudUser)showCloudActions();else showCloudAuth();showPanel('cloud');}
 
-/* --- Слушатели --- */
-$('btnCloud').addEventListener('click', ()=>{ SFX.uiSelect(); openCloudPanel(); });
-$('btnCloudBack').addEventListener('click', ()=>{ SFX.uiClick(); showMenu(); });
-
-/* Убираем старые btnCloudLogin и btnCloudRegister, добавляем одну кнопку */
-$('btnCloudSignIn').addEventListener('click', async ()=>{
-  if(typeof puter === 'undefined'){
-    cloudSetStatus('СЕРВИС ОБЛАКА НЕДОСТУПЕН', 'err');
-    SFX.denied();
-    return;
-  }
-  cloudSetStatus('ОТКРЫТИЕ ОКНА ВХОДА...', 'info');
+$('btnCloud').addEventListener('click',()=>{SFX.uiSelect();openCloudPanel();});
+$('btnCloudBack').addEventListener('click',()=>{SFX.uiClick();showMenu();});
+$('btnCloudSignIn').addEventListener('click',async()=>{
+  if(typeof puter==='undefined'){cloudSetStatus('СЕРВИС ОБЛАКА НЕДОСТУПЕН','err');SFX.denied();return;}
+  cloudSetStatus('ОТКРЫТИЕ ОКНА ВХОДА...','info');
   try{
-    const user = await puter.auth.signIn();  // ← открывает родное окно Puter
-    currentCloudUser = (user && (user.username || user.email)) || 'user';
-    SFX.uiSelect();
-    showCloudActions();
-  }catch(e){
-    console.error('Cloud auth error:', e);
-    cloudSetStatus('ВХОД ОТМЕНЁН ИЛИ ОШИБКА', 'err');
-    SFX.denied();
-  }
+    const user=await puter.auth.signIn();
+    currentCloudUser=(user&&(user.username||user.email))||'user';
+    SFX.uiSelect();showCloudActions();
+  }catch(e){console.error('Cloud auth error:',e);cloudSetStatus('ВХОД ОТМЕНЁН ИЛИ ОШИБКА','err');SFX.denied();}
 });
-
-$('btnCloudUpload').addEventListener('click', async ()=>{
-  cloudSetStatus('ОТПРАВКА...', 'info');
-  cloudPendingSave = true;   // форсируем отправку
-  cloudFirstDirtyAt = 0;
-  const ok = await cloudSaveNow();
-  if(ok){ SFX.purchase(); flashText='СОХРАНЕНО В ОБЛАКЕ'; flashTime=1500; }
-  else { SFX.denied(); }
+$('btnCloudUpload').addEventListener('click',async()=>{
+  cloudSetStatus('ОТПРАВКА...','info');
+  cloudPendingSave=true;cloudFirstDirtyAt=0;
+  const ok=await cloudSaveNow();
+  if(ok){SFX.purchase();flashText='СОХРАНЕНО В ОБЛАКЕ';flashTime=1500;}else SFX.denied();
 });
-
-$('btnCloudDownload').addEventListener('click', async ()=>{
-  cloudSetStatus('ЗАГРУЗКА...', 'info');
-  const ok = await cloudLoadNow();
-  if(ok){ SFX.purchase(); flashText='ЗАГРУЖЕНО ИЗ ОБЛАКА'; flashTime=1500; showMenu(); }
-  else { SFX.denied(); }
+$('btnCloudDownload').addEventListener('click',async()=>{
+  cloudSetStatus('ЗАГРУЗКА...','info');
+  const ok=await cloudLoadNow();
+  if(ok){SFX.purchase();flashText='ЗАГРУЖЕНО ИЗ ОБЛАКА';flashTime=1500;showMenu();}else SFX.denied();
 });
-
-$('btnCloudAuto').addEventListener('click', ()=>{
-  cloudAutoSync = !cloudAutoSync;
-  save.cloudAutoSync = cloudAutoSync;
-  $('btnCloudAuto').textContent = 'АВТО-СИНХРОН: ' + (cloudAutoSync ? 'ВКЛ' : 'ВЫКЛ');
-  $('btnCloudAuto').classList.toggle('on', cloudAutoSync);
+$('btnCloudAuto').addEventListener('click',()=>{
+  cloudAutoSync=!cloudAutoSync;save.cloudAutoSync=cloudAutoSync;
+  $('btnCloudAuto').textContent='АВТО-СИНХРОН: '+(cloudAutoSync?'ВКЛ':'ВЫКЛ');
+  $('btnCloudAuto').classList.toggle('on',cloudAutoSync);
   SFX.uiSelect();
-  if(cloudAutoSync){
-    cloudSetStatus('АВТО-СИНХРОН ВКЛЮЧЁН', 'ok');
-    cloudPendingSave = true;
-    cloudSaveNow();
-  } else {
-    cloudSetStatus('АВТО-СИНХРОН ВЫКЛЮЧЕН', '');
-    clearCloudTimers();
-  }
+  if(cloudAutoSync){cloudSetStatus('АВТО-СИНХРОН ВКЛЮЧЁН','ok');cloudPendingSave=true;cloudSaveNow();}
+  else{cloudSetStatus('АВТО-СИНХРОН ВЫКЛЮЧЕН','');clearCloudTimers();}
   persist();
 });
-
-$('btnCloudLogout').addEventListener('click', async ()=>{
-  await cloudSignOut();
-  SFX.uiClick();
-  showCloudAuth();
-  flashText = 'ВЫ ВЫШЛИ ИЗ ОБЛАКА';
-  flashTime = 1400;
+$('btnCloudLogout').addEventListener('click',async()=>{
+  await cloudSignOut();SFX.uiClick();showCloudAuth();
+  flashText='ВЫ ВЫШЛИ ИЗ ОБЛАКА';flashTime=1400;
 });
 
-/* --- Восстановление сессии при загрузке --- */
-(async ()=>{
-  // Восстанавливаем флаг из сохранения
-  cloudAutoSync = !!save.cloudAutoSync;
-
-  if(typeof puter === 'undefined'){
-    cloudSetStatus('ОБЛАКО НЕДОСТУПНО (оффлайн режим)', 'err');
-    return;
-  }
+(async()=>{
+  cloudAutoSync=!!save.cloudAutoSync;
+  if(typeof puter==='undefined'){cloudSetStatus('ОБЛАКО НЕДОСТУПНО (оффлайн режим)','err');return;}
   try{
-    const signed = await puter.auth.isSignedIn();
+    const signed=await puter.auth.isSignedIn();
     if(signed){
-      const u = await puter.auth.getUser();
-      currentCloudUser = (u && (u.username || u.email)) || 'user';
-      // Если авто-синк был включён — сразу отправим актуальное состояние
-      if(cloudAutoSync){
-        cloudPendingSave = true;
-        setTimeout(()=>cloudSaveNow(), 1500);
-      }
-      if(screen === 'cloud') showCloudActions();
-    } else {
-      // Сессия протухла — выключаем авто-синк, чтобы не спамить ошибками
-      cloudAutoSync = false;
-      save.cloudAutoSync = false;
-    }
-  }catch(e){ /* не критично */ }
+      const u=await puter.auth.getUser();
+      currentCloudUser=(u&&(u.username||u.email))||'user';
+      if(cloudAutoSync){cloudPendingSave=true;setTimeout(()=>cloudSaveNow(),1500);}
+      if(screen==='cloud')showCloudActions();
+    }else{cloudAutoSync=false;save.cloudAutoSync=false;}
+  }catch(_){}
 })();
-
-/* ===== /ОБЛАЧНОЕ СОХРАНЕНИЕ ===== */
 
 let snake,prevSnake,dir,foods,obstacles,inputQueue=[],score=0,alive=false;
 let baseTick=135,acc=0,lastTick=0,slowTimer=0,comboTimer=0,comboCount=0;
@@ -1083,7 +923,7 @@ function startRun(mode){
   score=0;alive=true;baseTick=135;acc=0;slowTimer=0;comboTimer=0;comboCount=0;shakeTime=0;flashText='';flashTime=0;
   nextObstacleScore=5;lastTick=performance.now();invulnTimer=0;pauseSlowTimer=0;
   pauseProtectionLeft=PAUSE_BUDGET_MAX;lastResumeTime=0;
-  runState={shields:0,magnet:0,mult:1,goldBonus:0,slowStack:0,vampire:0,luck:0,phase:0,bounce:0,twin:0,greed:0,perkLevels:{}};
+  runState={shields:0,magnet:0,mult:1,goldBonus:0,slowStack:0,vampire:0,luck:0,phase:0,bounce:0,twin:0,greed:0,ghost:0,regen:0,regenTimer:0,cascade:0,cascadeCount:0,combo:0,blast:0,portals:0,crit:0,resonance:0,perkLevels:{}};
   if(save.upgrades.startShield)runState.shields+=1;
   if(save.upgrades.reviveUp)runState.shields+=1;
   if(save.upgrades.startMagnet)runState.magnet=1;
@@ -1095,6 +935,8 @@ function startRun(mode){
   if(save.upgrades.startChrono)runState.slowStack=Math.min(.4,runState.slowStack+.1);
   if(save.upgrades.startSqueeze){snake=snake.slice(0,2);prevSnake=snake.map(s=>({...s}));}
   if(save.upgrades.startPerk){const avail=PERKS.filter(p=>perkLevel(p.id)<p.maxLevel);if(avail.length)applyPerk(avail[(Math.random()*avail.length)|0]);}
+  // Босс: стартовый щит (минимум 1)
+  if(isBossMode())runState.shields=Math.max(runState.shields,2);
   xp=0;runLevel=1;xpNeeded=5;pendingLevelUp=false;runCoins=0;runMaxCombo=0;
   runStartTime=performance.now();runEventsSeen=0;activeEvent=null;eventTimer=30000;
   miniGame=null;inMiniGame=false;miniGameDeck=[];boss=null;
@@ -1121,8 +963,8 @@ function spawnFood(type){
   if(!free.length)return;
   const pos=free[(Math.random()*free.length)|0];
   const f={x:pos.x,y:pos.y,type,born:performance.now(),maxLife:0};
-  if(type==='gold')f.maxLife=8500;
-  if(type==='slow')f.maxLife=9500;
+  if(type==='gold')f.maxLife=isBossMode()?12000:8500;
+  if(type==='slow')f.maxLife=isBossMode()?12000:9500;
   foods.push(f);
 }
 const hasFood=t=>foods.some(f=>f.type===t);
@@ -1177,17 +1019,21 @@ function updateParticles(dt){
   }
 }
 
+/* === БОССЫ: баланс под змейку (HP ↓, тайминги ↑, скорости ↓, щиты чаще) === */
 function initBoss(type){
   if(type==='shadow'){
-    boss={type:'shadow',hp:320,maxHp:320,phase:1,x:W/2,y:H/2-30,r:62,t:0,attackTimer:2200,attackPattern:0,projectiles:[],minions:[],warnings:[],clones:[],chaos:[],redParticles:[],hitFlash:0,dead:false,deathTimer:0};
+    boss={type:'shadow',hp:220,maxHp:220,phase:1,x:W/2,y:H/2-30,r:62,t:0,attackTimer:3200,attackPattern:0,projectiles:[],minions:[],warnings:[],clones:[],chaos:[],redParticles:[],hitFlash:0,dead:false,deathTimer:0};
     for(let i=0;i<24;i++)boss.chaos.push({a:Math.random()*Math.PI*2,r:26+Math.random()*62,len:14+Math.random()*36,rot:Math.random()*Math.PI*2,spin:(Math.random()-.5)*.0045,w:.8+Math.random()*1.6,wob:Math.random()*Math.PI*2,wobSpeed:.002+Math.random()*.004});
     for(let i=0;i<46;i++)boss.redParticles.push({ang:Math.random()*Math.PI*2,rad:40+Math.random()*110,speed:(Math.random()-.5)*.0025,drift:.15+Math.random()*.7,size:1+Math.random()*2.3,life:Math.random()*2000,maxLife:2000});
     bossHud.classList.add('shadow');bossNameEl.textContent='ТЕНЬ · СИНГУЛЯРНОСТЬ';
   }else{
-    boss={type:'napoleon',hp:250,maxHp:250,phase:1,x:W/2,y:140,r:64,t:0,attackTimer:2000,attackPattern:0,projectiles:[],minions:[],warnings:[],layers:0,hitFlash:0,dead:false,deathTimer:0};
+    boss={type:'napoleon',hp:170,maxHp:170,phase:1,x:W/2,y:140,r:64,t:0,attackTimer:3000,attackPattern:0,projectiles:[],minions:[],warnings:[],layers:0,hitFlash:0,dead:false,deathTimer:0};
     bossHud.classList.remove('shadow');bossNameEl.textContent='ТОРТ НАПОЛЕОН';
   }
-  bossHud.style.display='flex';updateBossHud();spawnFood('normal');spawnFood('normal');
+  bossHud.style.display='flex';updateBossHud();
+  // Босс: больше еды для восстановления ресурсов игрока
+  spawnFood('normal');spawnFood('normal');
+  if(Math.random()<.5)spawnFood('gold');
   flashText=type==='shadow'?'БОСС · ТЕНЬ':'БОСС · НАПОЛЕОН';flashTime=2000;
 }
 function bossPhaseForHp(hp,max){const p=hp/max;return p>.84?1:p>.64?2:p>.44?3:p>.2?4:5;}
@@ -1201,20 +1047,30 @@ function updateBossHud(){
 }
 function damageBoss(amount){
   if(!boss||boss.dead)return;
-  if(amount<0){boss.hp=Math.min(boss.maxHp,boss.hp-amount);updateBossHud();return;}
-  boss.hp-=amount;boss.hitFlash=220;
+  let dmg=amount;
+  if(runState&&runState.crit>0&&Math.random()<[0,0.15,0.30,0.45][runState.crit]){
+    dmg*=2;
+    flashText='КРИТ ×2';flashTime=700;
+    burst(boss.x,boss.y,[255,255,150],14,3);
+    SFX.eatGold();
+  }
+  boss.hp-=dmg;boss.hitFlash=220;
   if(save.screenShake)shakeTime=Math.max(shakeTime,160);
   burst(boss.x,boss.y,boss.type==='shadow'?[255,40,80]:[232,200,106],8,2.6);
   SFX.bossHit();vibrate(12);
   const np=bossPhaseForHp(boss.hp,boss.maxHp);
   if(np>boss.phase){
-    boss.phase=np;flashText='ФАЗА '+['I','II','III','IV','V'][np-1];flashTime=1600;SFX.bossPhase();vibrate([40,30,60]);
+    boss.phase=np;
+    // Бесплатный щит за каждую новую фазу (упрощает баланс)
+    runState.shields=Math.min(8,runState.shields+1);
+    flashText='ФАЗА '+['I','II','III','IV','V'][np-1]+' · +ЩИТ';flashTime=1800;
+    SFX.bossPhase();vibrate([40,30,60]);
     if(boss.type==='shadow'){
-      const n=14,base=Math.random()*Math.PI*2;
-      for(let i=0;i<n;i++){const a=base+(i/n)*Math.PI*2;boss.projectiles.push({x:boss.x,y:boss.y,vx:Math.cos(a)*2.3,vy:Math.sin(a)*2.3,r:9,rot:a,spin:.02,type:'needle',life:3500});}
+      const n=10,base=Math.random()*Math.PI*2;
+      for(let i=0;i<n;i++){const a=base+(i/n)*Math.PI*2;boss.projectiles.push({x:boss.x,y:boss.y,vx:Math.cos(a)*1.9,vy:Math.sin(a)*1.9,r:9,rot:a,spin:.02,type:'needle',life:3500});}
     }else{
       boss.layers=np-1;
-      for(let i=0;i<12;i++){const a=(i/12)*Math.PI*2;boss.projectiles.push({x:boss.x,y:boss.y,vx:Math.cos(a)*3,vy:Math.sin(a)*3,r:8,rot:0,spin:.05,type:'candle',life:3000});}
+      for(let i=0;i<10;i++){const a=(i/10)*Math.PI*2;boss.projectiles.push({x:boss.x,y:boss.y,vx:Math.cos(a)*2.4,vy:Math.sin(a)*2.4,r:8,rot:0,spin:.05,type:'candle',life:3000});}
     }
   }
   updateBossHud();checkAchievements();
@@ -1230,35 +1086,40 @@ function fireBossAttackNapoleon(pattern){
   if(!boss)return;
   const p=boss.phase;
   if(pattern===0){
-    const count=5+p*2,xs=[];
+    const count=3+p;const xs=[];
     for(let i=0;i<count;i++)xs.push(30+Math.random()*(W-60));
-    for(const x of xs)boss.warnings.push({x,y:0,kind:'biscuitWarn',life:900,maxLife:900});
-    boss._pendingBiscuit={xs,phase:p,fireAt:900};SFX.bossAttackBiscuit();
+    for(const x of xs)boss.warnings.push({x,y:0,kind:'biscuitWarn',life:1100,maxLife:1100});
+    boss._pendingBiscuit={xs,phase:p,fireAt:1100};SFX.bossAttackBiscuit();
   }else if(pattern===1){
     const dirs=p>=3?[-1,0,1]:[-1,1];
-    for(const d of dirs)for(let k=0;k<4;k++)boss.projectiles.push({x:boss.x+d*36,y:boss.y+20+k*18,vx:d*(2.2+p*.25),vy:.5+Math.random()*.6,r:12,rot:0,spin:.01,type:'cream',life:5000});
+    for(const d of dirs)for(let k=0;k<3;k++)boss.projectiles.push({x:boss.x+d*36,y:boss.y+20+k*18,vx:d*(1.7+p*.2),vy:.4+Math.random()*.5,r:12,rot:0,spin:.01,type:'cream',life:5000});
     SFX.bossAttackCream();
   }else if(pattern===2){
-    const count=p>=4?6:4,hx=snake[0].x*CELL+CELL/2,hy=snake[0].y*CELL+CELL/2;
+    const count=p>=4?5:4,hx=snake[0].x*CELL+CELL/2,hy=snake[0].y*CELL+CELL/2;
     for(let i=0;i<count;i++){
       const a=Math.atan2(hy-boss.y,hx-boss.x)+(i-(count-1)/2)*.35;
-      boss.projectiles.push({x:boss.x,y:boss.y+24,vx:Math.cos(a)*(2.4+p*.15),vy:Math.sin(a)*(2.4+p*.15),r:10,rot:0,spin:0,type:'candle',life:6000});
+      boss.projectiles.push({x:boss.x,y:boss.y+24,vx:Math.cos(a)*(1.9+p*.12),vy:Math.sin(a)*(1.9+p*.12),r:10,rot:0,spin:0,type:'candle',life:6000});
     }
     SFX.bossAttackCandle();
   }else if(pattern===3){
-    const count=3+p;
-    for(let i=0;i<count;i++)boss.warnings.push({x:40+Math.random()*(W-80),y:40+Math.random()*(H-80),r:48,life:1200,maxLife:1200,kind:'cherry'});
+    const count=2+p;
+    for(let i=0;i<count;i++)boss.warnings.push({x:40+Math.random()*(W-80),y:40+Math.random()*(H-80),r:46,life:1500,maxLife:1500,kind:'cherry'});
     SFX.bossAttackCherry();
   }else{
-    const count=10+p*2;
-    for(let i=0;i<count;i++){const a=(i/count)*Math.PI*2;boss.projectiles.push({x:boss.x,y:boss.y,vx:Math.cos(a)*(2.8+p*.15),vy:Math.sin(a)*(2.8+p*.15),r:8,rot:0,spin:.08,type:'candle',life:4000});}
+    const count=8+p;
+    for(let i=0;i<count;i++){const a=(i/count)*Math.PI*2;boss.projectiles.push({x:boss.x,y:boss.y,vx:Math.cos(a)*(2.2+p*.12),vy:Math.sin(a)*(2.2+p*.12),r:8,rot:0,spin:.08,type:'candle',life:4000});}
     SFX.bossAttackCandle();
   }
 }
 function spawnBossMinion(){
   if(!boss)return;
-  boss.minions.push({x:60+Math.random()*(W-120),y:-20,r:14,speed:.55+Math.random()*.3+boss.phase*.08,life:12000,born:performance.now()});
-  SFX.bossAttackMinion();
+  const maxMinions=Math.min(3,1+Math.floor(boss.phase/2));
+  if(boss.minions.length>=maxMinions)return;
+  const sx=60+Math.random()*(W-120);
+  boss.warnings.push({x:sx,y:0,r:22,kind:'minionWarn',life:900,maxLife:900});
+  boss._pendingMinions=boss._pendingMinions||[];
+  boss._pendingMinions.push({x:sx,fireAt:900,phase:boss.phase});
+  SFX.warnClone();
 }
 function updateBossNapoleon(dt,now){
   const b=boss;if(!b)return;
@@ -1269,16 +1130,32 @@ function updateBossNapoleon(dt,now){
     b._pendingBiscuit.fireAt-=dt;
     if(b._pendingBiscuit.fireAt<=0){
       const p=b._pendingBiscuit.phase;
-      for(const x of b._pendingBiscuit.xs)b.projectiles.push({x,y:-30,vx:(Math.random()-.5)*.4,vy:1.8+Math.random()*.9+p*.22,r:14,rot:0,spin:.02+Math.random()*.03,type:'biscuit',life:6000});
+      for(const x of b._pendingBiscuit.xs)b.projectiles.push({x,y:-30,vx:(Math.random()-.5)*.4,vy:1.4+Math.random()*.7+p*.18,r:14,rot:0,spin:.02+Math.random()*.03,type:'biscuit',life:6000});
       b._pendingBiscuit=null;
+    }
+  }
+  if(b._pendingMinions&&b._pendingMinions.length){
+    for(let i=b._pendingMinions.length-1;i>=0;i--){
+      const pm=b._pendingMinions[i];pm.fireAt-=dt;
+      if(pm.fireAt<=0){
+        b.minions.push({
+          x:pm.x,y:-20,r:14,
+          speed:.35+Math.random()*.2+pm.phase*.05,
+          life:8000,
+          born:performance.now(),
+          homingRange:300
+        });
+        b._pendingMinions.splice(i,1);
+        SFX.bossAttackMinion();
+      }
     }
   }
   b.attackTimer-=dt;
   if(b.attackTimer<=0){
     b.attackPattern=(b.attackPattern+1)%(b.phase>=4?5:4);
-    if(b.phase>=4&&Math.random()<.25)spawnBossMinion();
+    if(b.phase>=4&&Math.random()<.10)spawnBossMinion();
     fireBossAttackNapoleon(b.attackPattern);
-    b.attackTimer=[0,1900,1650,1350,1100,850][b.phase]+Math.random()*400;
+    b.attackTimer=[0,2800,2500,2150,1800,1500][b.phase]+Math.random()*500;
   }
   const hx=snake[0].x*CELL+CELL/2,hy=snake[0].y*CELL+CELL/2;
   for(let i=b.projectiles.length-1;i>=0;i--){
@@ -1312,7 +1189,11 @@ function updateBossNapoleon(dt,now){
   for(let i=b.minions.length-1;i>=0;i--){
     const m=b.minions[i];m.life-=dt;
     const dx=hx-m.x,dy=hy-m.y,d=Math.hypot(dx,dy)||1;
-    m.x+=dx/d*m.speed*dt;m.y+=dy/d*m.speed*dt;
+    if(d<m.homingRange){
+      m.x+=dx/d*m.speed*dt;m.y+=dy/d*m.speed*dt;
+    }else{
+      m.y+=m.speed*dt*.6;
+    }
     if(m.life<=0||m.y>H+40){b.minions.splice(i,1);continue;}
     if(d<m.r+12){
       b.minions.splice(i,1);
@@ -1324,10 +1205,10 @@ function updateBossNapoleon(dt,now){
   for(let i=foods.length-1;i>=0;i--){
     const f=foods[i],fx=f.x*CELL+CELL/2,fy=f.y*CELL+CELL/2;
     const dx=fx-b.x,dy=fy-b.y;
-    if(dx*dx+dy*dy<(b.r-20)*(b.r-20)){foods.splice(i,1);b.hp=Math.min(b.maxHp,b.hp+2);updateBossHud();burst(fx,fy,[120,80,40],8,2);}
+    if(dx*dx+dy*dy<(b.r-20)*(b.r-20)){foods.splice(i,1);if(Math.random()<.5)b.hp=Math.min(b.maxHp,b.hp+1);updateBossHud();burst(fx,fy,[120,80,40],8,2);}
   }
 }
-const CLONE_WARN=900,CLONE_ACTIVE=4500,CLONE_SPD=.2,CLONE_SPD_PH=.025;
+const CLONE_WARN=900,CLONE_ACTIVE=4000,CLONE_SPD=.18,CLONE_SPD_PH=.02;
 function spawnShadowClone(){
   if(!boss)return;
   const hx=snake[0].x*CELL+CELL/2,hy=snake[0].y*CELL+CELL/2;
@@ -1341,36 +1222,36 @@ function fireBossAttackShadow(pattern){
   if(!boss)return;
   const b=boss,p=b.phase;
   if(pattern===0){
-    const count=8+p*2,base=Math.random()*Math.PI*2;
+    const count=7+p*1.5,base=Math.random()*Math.PI*2;
     for(let i=0;i<count;i++){
-      const a=base+(i/count)*Math.PI*2,sp=1.7+Math.random()*.5+p*.1;
+      const a=base+(i/count)*Math.PI*2,sp=1.3+Math.random()*.4+p*.08;
       b.projectiles.push({x:b.x,y:b.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:10,rot:a,spin:.02,type:'needle',life:5500});
     }
     SFX.shadowNeedles();
   }else if(pattern===1){
     const count=p>=3?2:1;
     for(let i=0;i<count;i++){
-      if(Math.random()<.5){const y=80+Math.random()*(H-160);b.warnings.push({x:0,y,x2:W,y2:y,life:2400,maxLife:2400,kind:'rift',horiz:true,activeAt:1000});}
-      else{const x=80+Math.random()*(W-160);b.warnings.push({x,y:0,x2:x,y2:H,life:2400,maxLife:2400,kind:'rift',horiz:false,activeAt:1000});}
+      if(Math.random()<.5){const y=80+Math.random()*(H-160);b.warnings.push({x:0,y,x2:W,y2:y,life:2600,maxLife:2600,kind:'rift',horiz:true,activeAt:1200});}
+      else{const x=80+Math.random()*(W-160);b.warnings.push({x,y:0,x2:x,y2:H,life:2600,maxLife:2600,kind:'rift',horiz:false,activeAt:1200});}
     }
     SFX.warnRift();
   }else if(pattern===2){
     const x=130+Math.random()*(W-260),y=130+Math.random()*(H-260);
-    b.warnings.push({x,y,r:132,life:4800,maxLife:4800,kind:'well',pullTimer:0});
-    const n=3+Math.floor(p/2);
-    for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2;b.projectiles.push({x:b.x,y:b.y,vx:Math.cos(a)*1.6,vy:Math.sin(a)*1.6,r:12,rot:0,spin:.01,type:'orb',life:7000,homing:true});}
+    b.warnings.push({x,y,r:126,life:4800,maxLife:4800,kind:'well',pullTimer:0});
+    const n=2+Math.floor(p/2);
+    for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2;b.projectiles.push({x:b.x,y:b.y,vx:Math.cos(a)*1.3,vy:Math.sin(a)*1.3,r:12,rot:0,spin:.01,type:'orb',life:7000,homing:true});}
     SFX.shadowWell();
   }else if(pattern===3){
     spawnShadowClone();
-    if(boss.phase>=5&&Math.random()<.35)spawnShadowClone();
+    if(boss.phase>=5&&Math.random()<.2)spawnShadowClone();
   }else if(pattern===4){
     const n=1+Math.floor(p/2);
-    for(let i=0;i<n;i++)b.warnings.push({x:100+Math.random()*(W-200),y:100+Math.random()*(H-200),r:60,life:3400,maxLife:3400,kind:'blackhole'});
+    for(let i=0;i<n;i++)b.warnings.push({x:100+Math.random()*(W-200),y:100+Math.random()*(H-200),r:56,life:3400,maxLife:3400,kind:'blackhole'});
     SFX.shadowBlackhole();
   }else{
-    const count=10+p*1.5;
+    const count=8+p*1.2;
     for(let i=0;i<count;i++){
-      const a=Math.random()*Math.PI*2,sp=1.3+Math.random()*1.6;
+      const a=Math.random()*Math.PI*2,sp=1.1+Math.random()*1.2;
       b.projectiles.push({x:b.x+(Math.random()-.5)*90,y:b.y+(Math.random()-.5)*90,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:7,rot:Math.random()*Math.PI*2,spin:(Math.random()-.5)*.06,type:'shard',life:4200});
     }
     SFX.shadowChaos();
@@ -1390,22 +1271,22 @@ function updateBossShadow(dt,now){
   b.attackTimer-=dt;
   if(b.attackTimer<=0){
     b.attackPattern=(b.attackPattern+1)%(b.phase>=4?6:5);
-    if(b.phase>=4&&Math.random()<.12)spawnShadowClone();
+    if(b.phase>=4&&Math.random()<.08)spawnShadowClone();
     fireBossAttackShadow(b.attackPattern);
-    b.attackTimer=[0,2000,1750,1500,1250,1050][b.phase]+Math.random()*400;
+    b.attackTimer=[0,3000,2700,2400,2050,1750][b.phase]+Math.random()*500;
   }
   const hx=snake[0].x*CELL+CELL/2,hy=snake[0].y*CELL+CELL/2;
   for(let i=b.projectiles.length-1;i>=0;i--){
     const pr=b.projectiles[i];
     if(pr.homing){
       const dx=hx-pr.x,dy=hy-pr.y,d=Math.hypot(dx,dy)||1;
-      pr.vx+=dx/d*.035*dt/16;pr.vy+=dy/d*.035*dt/16;
+      pr.vx+=dx/d*.025*dt/16;pr.vy+=dy/d*.025*dt/16;
       const sp=Math.hypot(pr.vx,pr.vy);
-      if(sp>2.4){pr.vx=pr.vx/sp*2.4;pr.vy=pr.vy/sp*2.4;}
+      if(sp>1.9){pr.vx=pr.vx/sp*1.9;pr.vy=pr.vy/sp*1.9;}
     }
     for(const w of b.warnings)if(w.kind==='well'||w.kind==='blackhole'){
       const dx=w.x-pr.x,dy=w.y-pr.y,d2=dx*dx+dy*dy;
-      if(d2<26000){const d=Math.sqrt(d2)||1,f=.06*(1-d/162);pr.vx+=dx/d*f;pr.vy+=dy/d*f;}
+      if(d2<26000){const d=Math.sqrt(d2)||1,f=.05*(1-d/162);pr.vx+=dx/d*f;pr.vy+=dy/d*f;}
     }
     pr.x+=pr.vx*dt/16;pr.y+=pr.vy*dt/16;pr.rot+=(pr.spin||0)*dt/16;pr.life-=dt;
     if(pr.y>H+90||pr.x<-110||pr.x>W+110||pr.y<-110||pr.life<=0){b.projectiles.splice(i,1);continue;}
@@ -1437,7 +1318,7 @@ function updateBossShadow(dt,now){
       for(let j=foods.length-1;j>=0;j--){
         const f=foods[j],fx=f.x*CELL+CELL/2,fy=f.y*CELL+CELL/2;
         const dx=w.x-fx,dy=w.y-fy;
-        if(dx*dx+dy*dy<28*28){foods.splice(j,1);b.hp=Math.min(b.maxHp,b.hp+2);updateBossHud();burst(fx,fy,[200,40,60],12,2.6);}
+        if(dx*dx+dy*dy<28*28){foods.splice(j,1);if(Math.random()<.5)b.hp=Math.min(b.maxHp,b.hp+1);updateBossHud();burst(fx,fy,[200,40,60],12,2.6);}
       }
     }
     if(w.kind==='blackhole'){
@@ -1463,8 +1344,8 @@ function updateBossShadow(dt,now){
     }
     if(w.life<=0){
       if(w.kind==='blackhole'){
-        const n=10;
-        for(let k=0;k<n;k++){const a=(k/n)*Math.PI*2;b.projectiles.push({x:w.x,y:w.y,vx:Math.cos(a)*2.6,vy:Math.sin(a)*2.6,r:8,rot:a,spin:0,type:'needle',life:3000});}
+        const n=8;
+        for(let k=0;k<n;k++){const a=(k/n)*Math.PI*2;b.projectiles.push({x:w.x,y:w.y,vx:Math.cos(a)*2.1,vy:Math.sin(a)*2.1,r:8,rot:a,spin:0,type:'needle',life:3000});}
         burst(w.x,w.y,[200,20,80],26,4);
         if(save.screenShake)shakeTime=Math.max(shakeTime,160);
         SFX.shadowRift();
@@ -1493,7 +1374,7 @@ function updateBossShadow(dt,now){
   for(let i=foods.length-1;i>=0;i--){
     const f=foods[i],fx=f.x*CELL+CELL/2,fy=f.y*CELL+CELL/2;
     const dx=fx-b.x,dy=fy-b.y;
-    if(dx*dx+dy*dy<(b.r-20)*(b.r-20)){foods.splice(i,1);b.hp=Math.min(b.maxHp,b.hp+2);updateBossHud();burst(fx,fy,[120,0,40],8,2);}
+    if(dx*dx+dy*dy<(b.r-20)*(b.r-20)){foods.splice(i,1);if(Math.random()<.5)b.hp=Math.min(b.maxHp,b.hp+1);updateBossHud();burst(fx,fy,[120,0,40],8,2);}
   }
 }
 function finishBossVictory(type){
@@ -1535,6 +1416,31 @@ function drawBossNapoleon(now){
   const b=boss;if(!b)return;
   const flash=b.hitFlash>0,layers=b.layers||0;
   for(const w of b.warnings){
+    if(w.kind==='minionWarn'){
+      const pulse=.5+.5*Math.abs(Math.sin(now/80));
+      ctx.save();
+      ctx.globalAlpha=pulse;
+      ctx.fillStyle='rgba(255,120,60,0.9)';
+      ctx.shadowColor='rgba(255,120,60,1)';
+      ctx.shadowBlur=22;
+      ctx.beginPath();
+      ctx.moveTo(w.x,4);
+      ctx.lineTo(w.x-16,-14);
+      ctx.lineTo(w.x+16,-14);
+      ctx.closePath();
+      ctx.fill();
+      ctx.globalAlpha=.25*pulse;
+      ctx.strokeStyle='rgba(255,120,60,0.9)';
+      ctx.lineWidth=2;
+      ctx.setLineDash([8,8]);
+      ctx.beginPath();
+      ctx.moveTo(w.x,0);
+      ctx.lineTo(w.x,H);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+      continue;
+    }
     if(w.kind==='biscuitWarn'){
       const pulse=.5+.5*Math.abs(Math.sin(now/90));
       ctx.save();ctx.globalAlpha=pulse;
@@ -1775,10 +1681,8 @@ function drawBossShadow(now){
   ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,eyeR*.5,0,Math.PI*2);ctx.fill();
   ctx.restore();
   for(const pr of b.projectiles){
-    if(pr.x<-8)drawEdgeIndicator(pr.x,pr.y,'rgba(255,30,70,0.95)',now);
-    else if(pr.x>W+8)drawEdgeIndicator(pr.x,pr.y,'rgba(255,30,70,0.95)',now);
-    else if(pr.y<-8)drawEdgeIndicator(pr.x,pr.y,'rgba(255,30,70,0.95)',now);
-    else if(pr.y>H+8)drawEdgeIndicator(pr.x,pr.y,'rgba(255,30,70,0.95)',now);
+    if(pr.x<-8||pr.x>W+8||pr.y<-8||pr.y>H+8)
+      drawEdgeIndicator(pr.x,pr.y,'rgba(255,30,70,0.95)',now);
   }
 }
 function drawBoss(now){if(!boss)return;boss.type==='shadow'?drawBossShadow(now):drawBossNapoleon(now);}
@@ -1796,7 +1700,13 @@ function step(){
   const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
   if(save.borderDanger){
     if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS){
-      if(invulnTimer>0){dir={x:0,y:0};head.x=snake[0].x;head.y=snake[0].y;}
+      if(runState.portals>0&&Math.random()<[0,0.10,0.20,0.30][runState.portals]){
+        head.x=(head.x+COLS)%COLS;head.y=(head.y+ROWS)%ROWS;
+        flashText='ПОРТАЛ';flashTime=700;
+        burst(head.x*CELL+CELL/2,head.y*CELL+CELL/2,[180,120,255],10,2.6);
+        SFX.shieldHit();
+      }
+      else if(invulnTimer>0){dir={x:0,y:0};head.x=snake[0].x;head.y=snake[0].y;}
       else if(runState.bounce>0){
         runState.bounce--;
         dir={x:-dir.x,y:-dir.y};
@@ -1823,6 +1733,11 @@ function step(){
   for(let i=0;i<snake.length-1;i++){
     if(snake[i].x===head.x&&snake[i].y===head.y){
       if(invulnTimer>0)break;
+      if(runState.ghost>0&&Math.random()<[0,0.15,0.30,0.45][runState.ghost]){
+        flashText='ПРИЗРАК';flashTime=600;
+        burst(head.x*CELL+CELL/2,head.y*CELL+CELL/2,[180,180,255],8,2.2);
+        break;
+      }
       if(runState.shields>0){
         runState.shields--;
         snake.length=Math.max(3,i);
@@ -1856,16 +1771,17 @@ function applyMagnet(){
 }
 function eat(food,head){
   const cx=head.x*CELL+CELL/2,cy=head.y*CELL+CELL/2;
-  if(comboTimer>0)comboCount=Math.min(comboCount+1,15);else comboCount=1;
-  comboTimer=2600;runMaxCombo=Math.max(runMaxCombo,comboCount);
+  const comboMax=15+(runState.combo||0)*5;
+  if(comboTimer>0)comboCount=Math.min(comboCount+1,comboMax);else comboCount=1;
+  comboTimer=2600+(runState.combo||0)*1000;runMaxCombo=Math.max(runMaxCombo,comboCount);
   if(comboCount>1)SFX.comboUp(comboCount);
-  const comboMult=Math.min(comboCount,8);
+  const comboMult=Math.min(comboCount,8+(runState.combo||0)*2);
   let base=1,growth=1,xpGain=1;
   if(food.type==='gold'){
     base=5;growth=2;xpGain=3;
     burst(cx,cy,COLORS.gold,18,3.4);SFX.eatGold();vibrate([15,30,15]);
     if(save.screenShake)shakeTime=220;
-    if(runState.phase>0){invulnTimer=Math.max(invulnTimer,[0,1500,2500,3500][runState.phase]);flashText='ФАЗА';flashTime=800;}
+    if(runState.phase>0){invulnTimer=Math.max(invulnTimer,[0,1500,2500,3500,4500][runState.phase]);flashText='ФАЗА';flashTime=800;}
   }else if(food.type==='slow'){
     base=1;growth=0;xpGain=1;slowTimer=6500;
     burst(cx,cy,COLORS.slow,12,2.4);SFX.eatSlow();vibrate(15);
@@ -1874,8 +1790,22 @@ function eat(food,head){
     if(save.screenShake)shakeTime=110;
   }
   let gain=base*comboMult*runState.mult+runState.vampire;
-  if(runState.luck>0&&Math.random()<runState.luck*.2){
+  if(runState.luck>0&&Math.random()<[0,0.20,0.40,0.60,0.80][runState.luck]){
     gain*=2;burst(cx,cy,[255,255,180],10,3);flashText='УДАЧА ×2';flashTime=700;SFX.luckDouble();
+  }
+  if(runState.cascade>0){
+    runState.cascadeCount=(runState.cascadeCount||0)+1;
+    const every=[0,6,5,4][runState.cascade];
+    if(runState.cascadeCount>=every){
+      runState.cascadeCount=0;
+      gain*=2;
+      flashText='КАСКАД ×2';flashTime=800;
+      burst(cx,cy,[255,180,80],12,3);
+    }
+  }
+  if(runState.resonance>0){
+    const bonus=Math.floor((performance.now()-runStartTime)/10000)*runState.resonance*.01;
+    gain*=1+bonus;
   }
   gain=Math.round(gain);
   let scoreGain=gain,coinGain=gain+runState.greed;
@@ -1884,7 +1814,18 @@ function eat(food,head){
     if(activeEvent.id==='treasure')coinGain*=3;
   }
   score+=scoreGain;runCoins+=coinGain;
-  if(isBossMode()&&boss&&!boss.dead)damageBoss(food.type==='gold'?6:3);
+  // Урон боссу: щедрее награда (было 6/3)
+  if(isBossMode()&&boss&&!boss.dead)damageBoss(food.type==='gold'?10:6);
+  if(runState.blast>0){
+    const br=[0,1,2,3][runState.blast];
+    for(let oi=obstacles.length-1;oi>=0;oi--){
+      const o=obstacles[oi];
+      if(Math.abs(o.x-head.x)+Math.abs(o.y-head.y)<=br){
+        burst(o.x*CELL+CELL/2,o.y*CELL+CELL/2,[200,120,60],6,2.2);
+        obstacles.splice(oi,1);
+      }
+    }
+  }
   if(growth===0)snake.pop();
   else if(growth>=2){const t=snake[snake.length-1];snake.push({x:t.x,y:t.y});}
   if(food.type==='normal'){
@@ -1893,7 +1834,7 @@ function eat(food,head){
       let cnt=foods.filter(f=>f.type==='normal').length;
       while(cnt<1+runState.twin){spawnFood('normal');cnt++;}
     }
-    const goldChance=.22+runState.goldBonus+(activeEvent&&activeEvent.id==='goldrush'?.4:0);
+    const goldChance=(isBossMode()?.45:.22)+runState.goldBonus+(activeEvent&&activeEvent.id==='goldrush'?.4:0);
     if(!hasFood('gold')&&Math.random()<goldChance)spawnFood('gold');
     else if(!hasFood('slow')&&Math.random()<.14+runState.luck*.03)spawnFood('slow');
   }
@@ -1945,7 +1886,8 @@ function checkAchievements(){
   for(const id of save.unlocked)if(SKINS[id]&&SKINS[id].rarity==='legendary'){hasLegendary=true;break;}
   if(!hasLegendary)for(const id of save.unlockedTrails)if(TRAILS[id]&&TRAILS[id].rarity==='legendary'){hasLegendary=true;break;}
   if(!hasLegendary)for(const id of save.unlockedThemes)if(THEMES[id]&&THEMES[id].rarity==='legendary'){hasLegendary=true;break;}
-  const stats={score,maxCombo:runMaxCombo,runLevel,totalCoins:save.coins,skinsCount:save.unlocked.length,miniGamesWon:save.stats.miniGamesWon||0,miniGamesPlayed:save.stats.miniGamesPlayed||0,eventsSeen:save.stats.eventsSeen||0,runTime:performance.now()-(runStartTime||performance.now()),bossWins:save.stats.bossWins||0,shadowWins:save.stats.shadowWins||0,trailsCount:save.unlockedTrails.length,themesCount:save.unlockedThemes.length,upgradesCount:Object.keys(save.upgrades).length,hasLegendary,unlockedCount:save.achievements.length};
+  const runTimeMs=runStartTime?performance.now()-runStartTime:0;
+  const stats={score,maxCombo:runMaxCombo,runLevel,totalCoins:save.coins,skinsCount:save.unlocked.length,miniGamesWon:save.stats.miniGamesWon||0,miniGamesPlayed:save.stats.miniGamesPlayed||0,eventsSeen:save.stats.eventsSeen||0,runTime:runTimeMs,bossWins:save.stats.bossWins||0,shadowWins:save.stats.shadowWins||0,trailsCount:save.unlockedTrails.length,themesCount:save.unlockedThemes.length,upgradesCount:Object.keys(save.upgrades).length,hasLegendary,unlockedCount:save.achievements.length};
   let any=false;
   for(let pass=0;pass<2;pass++)for(const ach of ACHIEVEMENTS){
     if(save.achievements.includes(ach.id))continue;
@@ -2367,6 +2309,14 @@ function drawHUD(now){
     if(runState.phase>0)owned.push({i:'◆',n:runState.phase});
     if(runState.twin>0)owned.push({i:'⋈',n:runState.twin});
     if(runState.greed>0)owned.push({i:'◈',n:runState.greed});
+    if(runState.ghost>0)owned.push({i:'♅',n:''});
+    if(runState.regen>0)owned.push({i:'♻',n:''});
+    if(runState.cascade>0)owned.push({i:'≫',n:''});
+    if(runState.combo>0)owned.push({i:'∞',n:runState.combo});
+    if(runState.blast>0)owned.push({i:'✸',n:''});
+    if(runState.portals>0)owned.push({i:'◍',n:''});
+    if(runState.crit>0)owned.push({i:'⚔',n:''});
+    if(runState.resonance>0)owned.push({i:'❂',n:''});
     if(owned.length){
       ctx.save();ctx.font='bold 18px "Special Elite", serif';ctx.textAlign='left';ctx.textBaseline='bottom';
       ctx.fillStyle='rgba(232,200,106,0.9)';
@@ -2411,6 +2361,18 @@ function loop(now){
       updateMiniGame(dt);
     }else{
       if(slowTimer>0)slowTimer=Math.max(0,slowTimer-dt);
+      if(runState&&runState.regen>0){
+        runState.regenTimer=(runState.regenTimer||0)+dt;
+        const rthr=[0,12000,8000,5000][runState.regen];
+        if(runState.regenTimer>=rthr){
+          runState.regenTimer=0;
+          if(snake.length>3){
+            snake.pop();
+            const rt=snake[snake.length-1];
+            burst(rt.x*CELL+CELL/2,rt.y*CELL+CELL/2,[150,255,180],6,1.8);
+          }
+        }
+      }
       if(comboTimer>0){comboTimer-=dt;if(comboTimer<=0){comboTimer=0;comboCount=0;}}
       if(flashTime>0)flashTime=Math.max(0,flashTime-dt);
       if(isBossMode())updateBoss(dt,now);
@@ -2532,7 +2494,7 @@ function renderHelp(){
 <div class="help-list-item">Собирай <em>еду</em>, не врезайся в стены, себя и препятствия.</div>
 <div class="help-list-item">Каждый уровень выбирай <em>перк</em>. Повторный выбор усиливает его.</div>
 <div class="help-list-item">Монеты трать в <em>магазине</em>.</div>
-<div class="help-list-item">В разделе <em>БОССЫ</em> выбери противника.</div>
+<div class="help-list-item">В разделе <em>БОССЫ</em> выбери противника — на старте дают щит.</div>
 <div class="help-list-item">В <em>ОБЛАКЕ</em> войди, чтобы сохранять прогресс онлайн.</div>
 </div></div>
 <div class="help-section"><div class="help-section-title">УПРАВЛЕНИЕ · КЛАВИАТУРА</div>
@@ -2577,19 +2539,19 @@ function renderHelp(){
 <div class="help-text">Награда: <em>2 / 10 / 25 / 50</em> монет.</div>
 </div>
 <div class="help-section"><div class="help-section-title">БОСС №1 · ТОРТ НАПОЛЕОН</div>
-<div class="help-text">5 фаз, 250 HP. Ешь еду: золотая — <em>6</em>, обычная — <em>3</em>.</div>
+<div class="help-text">5 фаз, <em>170 HP</em>. Ешь еду: золотая — <em>9</em>, обычная — <em>5</em>. Стартовый щит + щит за каждую фазу.</div>
 <div class="help-line"><span class="help-icon">I</span><span class="help-desc"><em>Бисквит</em> — полоса-предупреждение сверху</span></div>
 <div class="help-line"><span class="help-icon">II</span><span class="help-desc"><em>Крем</em> — веер слева/справа</span></div>
 <div class="help-line"><span class="help-icon">III</span><span class="help-desc"><em>Карамель</em> — свечи-наведения</span></div>
-<div class="help-line"><span class="help-icon">IV</span><span class="help-desc"><em>Вишня</em> — красные АОЕ (1.2 сек) + мини-тортики</span></div>
+<div class="help-line"><span class="help-icon">IV</span><span class="help-desc"><em>Вишня</em> — красные АОЕ (1.5 сек) + мини-тортики</span></div>
 <div class="help-line"><span class="help-icon">V</span><span class="help-desc"><em>Ярость</em> — круговые залпы</span></div>
 <div class="help-text">Победа даёт <em>3000+ монет</em>.</div>
 </div>
 <div class="help-section"><div class="help-section-title">БОСС №2 · ТЕНЬ</div>
-<div class="help-text">Сингулярность. 320 HP.</div>
+<div class="help-text">Сингулярность. <em>220 HP</em>.</div>
 <div class="help-line"><span class="help-icon">I</span><span class="help-desc"><em>Зарождение</em> — круговой залп игл</span></div>
 <div class="help-line"><span class="help-icon">II</span><span class="help-desc"><em>Поглощение</em> — колодец + самонаводящиеся сферы</span></div>
-<div class="help-line"><span class="help-icon">III</span><span class="help-desc"><em>Разлом</em> — мигающая линия 2.4 сек</span></div>
+<div class="help-line"><span class="help-icon">III</span><span class="help-desc"><em>Разлом</em> — мигающая линия 2.6 сек</span></div>
 <div class="help-line"><span class="help-icon">IV</span><span class="help-desc"><em>Ассимиляция</em> — клон с <em>!</em>, 0.9 сек не опасен</span></div>
 <div class="help-line"><span class="help-icon">V</span><span class="help-desc"><em>Сингулярность</em> — чёрные дыры и осколки</span></div>
 <div class="help-text">Победа даёт <em>6000+ монет</em>.</div>
@@ -2604,14 +2566,7 @@ function renderHelp(){
 </div>
 </div>
 <div class="help-section"><div class="help-section-title">ОБЛАКО</div>
-<div class="help-text">В разделе <em>ОБЛАКО</em> можно создать аккаунт и сохранять прогресс онлайн через сервис <em>Puter.js</em>.</div>
-<div class="help-list">
-<div class="help-list-item"><em>Создать аккаунт</em> — придумайте логин и пароль.</div>
-<div class="help-list-item"><em>Войти</em> — используйте существующие данные.</div>
-<div class="help-list-item"><em>Сохранить в облако</em> — отправить текущий прогресс.</div>
-<div class="help-list-item"><em>Загрузить из облака</em> — восстановить прогресс на любом устройстве.</div>
-<div class="help-list-item"><em>Авто-синхрон</em> — автоматически сохранять прогресс каждые 4 сек после изменений.</div>
-</div>
+<div class="help-text">В разделе <em>ОБЛАКО</em> можно войти и сохранять прогресс онлайн через <em>Puter.js</em>.</div>
 </div>
 <div class="help-section"><div class="help-section-title">ДОСТИЖЕНИЯ</div>
 <div class="help-text">Всего <em>45</em>. Обычные — за первые минуты. <em>«Редкие»</em> — 1000 очков, 30 уровень, 100000 монет, оба босса, все скины/следы/темы/улучшения, 100 мини-игр, 5 минут выживания.</div>
@@ -2904,7 +2859,7 @@ function applyPerk(perk){
   const lv=cur+1;
   runState.perkLevels[perk.id]=lv;
   switch(perk.id){
-    case 'shield':runState.shields=Math.min(3,lv);break;
+    case 'shield':runState.shields=Math.min(8,runState.shields+1);break;
     case 'magnet':runState.magnet=lv;break;
     case 'mult':runState.mult=+(1+lv*.5).toFixed(1);break;
     case 'goldrush':runState.goldBonus=Math.min(.45,[0,.15,.25,.35][lv]);break;
@@ -2912,14 +2867,22 @@ function applyPerk(perk){
     case 'vampire':runState.vampire=lv;break;
     case 'luck':runState.luck=lv;break;
     case 'squeeze':{
-      const n=lv===1?3:lv===2?3:4;
+      const n=[0,3,5,8][lv];
       for(let i=0;i<n&&snake.length>3;i++)snake.pop();
       if(snake[0])burst(snake[0].x*CELL+CELL/2,snake[0].y*CELL+CELL/2,[180,220,255],10,2.2);
       break;}
     case 'phase':runState.phase=lv;break;
-    case 'bounce':runState.bounce=Math.min(3,(runState.bounce||0)+1);break;
+    case 'bounce':runState.bounce=Math.min(4,(runState.bounce||0)+1);break;
     case 'twin':runState.twin=lv;break;
     case 'greed':runState.greed=lv;break;
+    case 'ghost':runState.ghost=lv;break;
+    case 'regen':runState.regen=lv;break;
+    case 'cascade':runState.cascade=lv;break;
+    case 'combo':runState.combo=lv;break;
+    case 'blast':runState.blast=lv;break;
+    case 'portals':runState.portals=lv;break;
+    case 'crit':runState.crit=lv;break;
+    case 'resonance':runState.resonance=lv;break;
   }
 }
 function showLevelUp(){
@@ -2927,7 +2890,16 @@ function showLevelUp(){
   const avail=PERKS.filter(p=>perkLevel(p.id)<p.maxLevel);
   const pool=[...avail],picks=[];
   let count=3+(save.upgrades.perkChoice?1:0)+(save.upgrades.perkChoice2?1:0);
-  while(picks.length<count&&pool.length){const i=(Math.random()*pool.length)|0;picks.push(pool.splice(i,1)[0]);}
+  // В боссах усиливаем шанс щита
+  if(isBossMode()&&!picks.some(p=>p.id==='shield')){
+    const sh=pool.find(p=>p.id==='shield');
+    if(sh){picks.unshift(sh);pool.splice(pool.indexOf(sh),1);}
+  }
+  while(picks.length<count&&pool.length){
+    const i=(Math.random()*pool.length)|0;
+    const p=pool.splice(i,1)[0];
+    if(!picks.includes(p))picks.push(p);
+  }
   perksList.innerHTML='';
   for(const perk of picks){
     const lv=perkLevel(perk.id);
