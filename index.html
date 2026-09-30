@@ -884,8 +884,9 @@ $('btnCloudAuto').addEventListener('click', ()=>{
 $('btnCloudLogout').addEventListener('click', async ()=>{
   await cloudSignOut();
   SFX.uiClick();
-  $('cloudUser').value=''; $('cloudPass').value='';
   showCloudAuth();
+  flashText = 'ВЫ ВЫШЛИ ИЗ ОБЛАКА';
+  flashTime = 1400;
 });
 
 /* --- Восстановление сессии при загрузке --- */
