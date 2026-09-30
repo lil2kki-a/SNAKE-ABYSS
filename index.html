@@ -548,6 +548,7 @@ body::before{background:radial-gradient(ellipse at center,transparent 40%,rgba(0
 <script>
 (() => {
 'use strict';
+/* CLOUDBATCH */
 /* STRUCTFIX */
 /* LANGNULL2 */
 /* LANGNULL */
@@ -746,6 +747,8 @@ const OLD_KEYS=['snake_rm_v8','snake_rm_v7','snake_rm_rpg_v7','snake_rm_rpg_v6',
 const DEFAULT_SAVE=()=>({coins:0,best:0,unlocked:['classic'],active:'classic',unlockedTrails:['none'],activeTrail:'none',unlockedThemes:['classic'],activeTheme:'classic',upgrades:{},achievements:[],stats:{},musicVolume:.5,sfxVolume:1,musicOn:true,sfxOn:true,screenShake:true,particlesOn:true,vibration:true,fastMode:false,minigamesOn:true,perksOn:true,borderDanger:false,cloudAutoSync:false,lang:'ru'});
 const T_EN={'Звук':'Sound','СЧЁТ:':'SCORE:','УР.':'LVL.','РЕКОРД:':'BEST:','РЕКОРД':'BEST','ДОСТИЖ.':'ACHIEV.','НАПОЛЕОН':'NAPOLEON','ФАЗА I · БИСКВИТ':'PHASE I · SPONGE','+1':'+1','+5 · рост':'+5 · grow','замедление':'slowdown','СТРЕЛКИ / WASD · ПРОБЕЛ — ПАУЗА · M — ЗВУК · ESC — НАЗАД':'ARROWS / WASD · SPACE — PAUSE · M — SOUND · ESC — BACK','СВАЙП — ДВИЖЕНИЕ · ТАП — ПАУЗА':'SWIPE — MOVE · TAP — PAUSE','Это включит звук и запустит музыку':'This will enable sound and start music','НАЖМИТЕ ЧТОБЫ ПРОДОЛЖИТЬ':'CLICK TO CONTINUE','Выберите язык · Choose language':'Choose language · Выберите язык','РУССКИЙ':'РУССКИЙ','ENGLISH':'ENGLISH','ИГРАТЬ':'PLAY','БОССЫ':'BOSSES','МАГАЗИН':'SHOP','ДОСТИЖЕНИЯ':'ACHIEVEMENTS','КАК ИГРАТЬ':'HOW TO PLAY','НАСТРОЙКИ':'SETTINGS','ОБЛАКО':'CLOUD','ПРОГРЕСС':'PROGRESS','ЗАНОВО':'RETRY','МЕНЮ':'MENU','☁ ОФФЛАЙН':'☁ OFFLINE','Нажмите кнопку ниже — откроется окно входа Puter.<br>Там можно войти или создать аккаунт.':'Click the button below to open the Puter sign-in window.<br>You can sign in or create an account there.','☁ ВОЙТИ / СОЗДАТЬ АККАУНТ':'☁ SIGN IN / CREATE ACCOUNT','ГОТОВО К ВХОДУ':'READY TO SIGN IN','СИНХРОНИЗАЦИЯ ДОСТУПНА':'SYNC AVAILABLE','↑ СОХРАНИТЬ В ОБЛАКО':'↑ SAVE TO CLOUD','↓ ЗАГРУЗИТЬ ИЗ ОБЛАКА':'↓ LOAD FROM CLOUD','АВТО-СИНХРОН: ВЫКЛ':'AUTO-SYNC: OFF','АВТО-СИНХРОН: ВКЛ':'AUTO-SYNC: ON','АВТО-СИНХРОН ВКЛЮЧЁН':'AUTO-SYNC ENABLED','АВТО-СИНХРОН ВЫКЛЮЧЕН':'AUTO-SYNC DISABLED','ВЫЙТИ':'SIGN OUT','НАЗАД':'BACK','ПАУЗА':'PAUSED','ЗАЩИТА ДОСТУПНА · ЛИМИТ 4':'PROTECTION AVAILABLE · LIMIT 4','ПРОДОЛЖИТЬ':'RESUME','В МЕНЮ':'TO MENU','МОДИФИКАТОР':'MODIFIER','РИСК · НАГРАДА':'RISK · REWARD','Модификатор усложняет забег, но даёт <em style="color:#e8c86a">больше монет</em> в конце.<br>Выбери один или играй как обычно.':'A modifier makes the run harder but gives <em style="color:#e8c86a">more coins</em> at the end.<br>Pick one or play normally.','БЕЗ МОДИФИКАТОРА':'NO MODIFIER','ВЫБОР БОССА':'BOSS SELECT','АРЕНА · 2':'ARENA · 2','Гигантский торт. 5 фаз. <em>260 HP</em>. Бесплатный щит на старте и +1 за фазу.':'Giant cake. 5 phases. <em>260 HP</em>. Free shield at start and +1 per phase.','Сингулярность-ассимилятор. <em>340 HP</em>. Стартовый щит и щит за каждую фазу.':'Singularity-assimilator. <em>340 HP</em>. Starting shield and shield per phase.','РУКОВОДСТВО':'GUIDE','МОНЕТЫ · ':'COINS · ','СКИНЫ':'SKINS','СЛЕДЫ':'TRAILS','ТЕМЫ':'THEMES','УЛУЧШЕНИЯ':'UPGRADES','ВЫБРАНО':'SELECTED','ВЫБРАТЬ':'SELECT','КУПЛЕНО':'OWNED','ЗВУК · ВИД':'SOUND · VIEW','ЯЗЫК / LANGUAGE':'LANGUAGE / ЯЗЫК','ГРОМКОСТЬ':'VOLUME','МУЗЫКА':'MUSIC','ЭФФЕКТЫ':'SFX','КАНАЛЫ':'CHANNELS','МУЗЫКА: ВКЛ':'MUSIC: ON','МУЗЫКА: ВЫКЛ':'MUSIC: OFF','ЭФФЕКТЫ: ВКЛ':'SFX: ON','ЭФФЕКТЫ: ВЫКЛ':'SFX: OFF','ЭФФЕКТЫ ЭКРАНА':'SCREEN EFFECTS','ТРЯСКА: ВКЛ':'SHAKE: ON','ТРЯСКА: ВЫКЛ':'SHAKE: OFF','ЧАСТИЦЫ: ВКЛ':'PARTICLES: ON','ЧАСТИЦЫ: ВЫКЛ':'PARTICLES: OFF','ГЕЙМПЛЕЙ':'GAMEPLAY','МИНИ-ИГРЫ: ВКЛ':'MINI-GAMES: ON','МИНИ-ИГРЫ: ВЫКЛ':'MINI-GAMES: OFF','ПЕРКИ: ВКЛ':'PERKS: ON','ПЕРКИ: ВЫКЛ':'PERKS: OFF','ОПАСНЫЕ ГРАНИЦЫ: ВКЛ':'DANGEROUS EDGES: ON','ОПАСНЫЕ ГРАНИЦЫ: ВЫКЛ':'DANGEROUS EDGES: OFF','УСТРОЙСТВО':'DEVICE','ВИБРАЦИЯ: ВКЛ':'VIBRATION: ON','ВИБРАЦИЯ: ВЫКЛ':'VIBRATION: OFF','ВИБРАЦИЯ: НЕ ДОСТУПНА':'VIBRATION: N/A','БЫСТРЫЙ РЕЖИМ: ВКЛ':'FAST MODE: ON','БЫСТРЫЙ РЕЖИМ: ВЫКЛ':'FAST MODE: OFF','СБРОСИТЬ НАСТРОЙКИ':'RESET SETTINGS','ЗАСЛУГИ':'CREDITS','Учредитель концепта и организатор реализации':'Concept founder and project lead','Ведущий инструмент реализации':'Primary implementation tool','Хостинг ассетов':'Asset hosting','Музыка':'Music','Идея босса «Торт Наполеона»':'Napoleon Cake boss idea','— СПАСИБО ВСЕМ ПРИЧАСТНЫМ —':'— THANKS TO EVERYONE INVOLVED —','СКАЧАТЬ СОХРАНЕНИЕ':'DOWNLOAD SAVE','ЗАГРУЗИТЬ СОХРАНЕНИЕ':'LOAD SAVE','Вставьте JSON сюда или выберите файл ниже...':'Paste JSON here or pick a file below...','ВЫБРАТЬ ФАЙЛ':'CHOOSE FILE','ПРИМЕНИТЬ':'APPLY','ОТМЕНА':'CANCEL','СБРОСИТЬ ВЕСЬ ПРОГРЕСС':'RESET ALL PROGRESS','УРОВЕНЬ':'LEVEL','ВЫБЕРИ УЛУЧШЕНИЕ':'CHOOSE AN UPGRADE','ИГРА ОКОНЧЕНА':'GAME OVER','НОВЫЙ РЕКОРД':'NEW RECORD','МОНЕТЫ':'COINS','ПОБЕД НАД НАПОЛЕОНОМ':'NAPOLEON WINS','ПОБЕД НАД ТЕНЬЮ':'SHADOW WINS','МИНИ-ИГР ПОБЕЖДЕНО':'MINI-GAMES WON','СОБЫТИЙ ПЕРЕЖИТО':'EVENTS SURVIVED','ЗАБЕГОВ С МОДИФИКАТОРОМ':'RUNS WITH MODIFIER','МОДИФИКАТОРОВ ОСВОЕНО':'MODIFIERS MASTERED','СЕРВИС ОБЛАКА НЕДОСТУПЕН':'CLOUD SERVICE UNAVAILABLE','ОТКРЫТИЕ ОКНА ВХОДА...':'OPENING SIGN-IN WINDOW...','ВХОД ОТМЕНЁН ИЛИ ОШИБКА':'SIGN-IN CANCELLED OR FAILED','ОБЛАКО НЕДОСТУПНО (оффлайн режим)':'CLOUD UNAVAILABLE (offline mode)','ОТПРАВКА...':'UPLOADING...','ЗАГРУЗКА...':'DOWNLOADING...','НЕТ СОХРАНЕНИЯ ИЛИ ОШИБКА':'NO SAVE OR ERROR','ОШИБКА СОХРАНЕНИЯ · ПОВТОР...':'SAVE ERROR · RETRYING...','ВЫ ВОШЛИ КАК: ':'SIGNED IN AS: ','ЗАЩИТА ДОСТУПНА · ОСТАЛОСЬ ':'PROTECTION AVAILABLE · LEFT ','ЗАЩИТА ИСЧЕРПАНА · БЕЗ ПОСЛЕДСТВИЙ':'PROTECTION DEPLETED · NO EFFECT','СОХРАНЕНИЕ СКАЧАНО':'SAVE DOWNLOADED','СОХРАНЕНИЕ ЗАГРУЖЕНО':'SAVE LOADED','ОШИБКА: НЕВЕРНЫЙ ФОРМАТ':'ERROR: INVALID FORMAT','ПРОГРЕСС СБРОШЕН':'PROGRESS RESET','СОХРАНЕНО В ОБЛАКЕ':'SAVED TO CLOUD','ЗАГРУЖЕНО ИЗ ОБЛАКА':'LOADED FROM CLOUD','ВЫ ВЫШЛИ ИЗ ОБЛАКА':'SIGNED OUT OF CLOUD','ТОЧНО СБРОСИТЬ? НАЖМИ ЕЩЁ РАЗ':'SURE? PRESS AGAIN','СОХРАНЕНО · ':'SAVED · ','ЗАГРУЖЕНО · ':'LOADED · ','☁ СОХРАНЕНО':'☁ SAVED','☁ ОШИБКА':'☁ ERROR','☁ ЗАГРУЖЕНО':'☁ LOADED'};
 Object.assign(T_EN,{
+/* _CLOUD */
+'СЕССИЯ ИСТЕКЛА · ВОЙДИТЕ ЗАНОВО':'SESSION EXPIRED · SIGN IN AGAIN','СЕССИЯ ИСТЕКЛА':'SESSION EXPIRED',
 /* _SWEEP */
 'ТЕНЬ':'SHADOW','ЗАМЕДЛЕНИЕ':'SLOWDOWN','ЗВУК ВЫКЛ':'SOUND OFF','ЗАЩИТА':'PROTECTION','С':'S','★ МИНИ-ИГРА · ':'★ MINI-GAME · ','ПОЛОСА УДАЧИ':'LUCKY STRIKE','ПАМЯТЬ':'MEMORY','ЗВЁЗДНЫЙ ДОЖДЬ':'STAR RAIN','ТАП / ПРОБЕЛ — В ЗЕЛЁНОЙ ЗОНЕ':'TAP / SPACE — IN THE GREEN ZONE','СМОТРИ...':'WATCH...','ПОВТОРИ (ТАП ИЛИ 1-4)':'REPEAT (TAP OR 1-4)','ЗАЖМИ ЭКРАН И ВЕДИ ПАЛЬЦЕМ · ИЛИ СТРЕЛКИ':'HOLD AND DRAG · OR USE ARROWS','ПРИГОТОВЬСЯ...':'GET READY...','ТОЧНО!':'HIT!','ПРОМАХ':'MISS','ИДЕАЛЬНО!':'PERFECT!','ОШИБКА':'MISTAKE','АВТО-СИНХРОН: ':'AUTO-SYNC: ','АВТО-СИНХРОН ВКЛЮЧЁН':'AUTO-SYNC ENABLED','АВТО-СИНХРОН ВЫКЛЮЧЕН':'AUTO-SYNC DISABLED','+ЩИТ':'+SHIELD','Улучшение':'Upgrade','Скин':'Skin','След':'Trail','Тема':'Theme','Модификатор':'Modifier','Босс':'Boss','Звук':'Sound','Игровое поле':'Game field','Громкость музыки':'Music volume','Громкость эффектов':'SFX volume',
 /* _HOTFIX */
@@ -894,15 +897,49 @@ async function cloudSaveNow(){
   if(cloudBusy||!currentCloudUser||typeof puter==='undefined')return false;
   if(!cloudPendingSave)return true;
   cloudBusy=true;cloudPendingSave=false;
+  const payload=JSON.stringify(save);
+  /* Шаг 1: обычная запись */
   try{
-    await puter.fs.write(CLOUD_FILE,JSON.stringify(save));
+    await puter.fs.write(CLOUD_FILE,payload);
     cloudLastSave=Date.now();cloudFirstDirtyAt=0;
     cloudSetStatus(t('СОХРАНЕНО · ')+new Date().toLocaleTimeString(),'ok');
-    showCloudIndicator('☁ СОХРАНЕНО','#7fb8c9');SFX.cloudSyncOk();return true;
-  }catch(e){
-    console.error('Cloud save error:',e);cloudPendingSave=true;
+    showCloudIndicator('☁ СОХРАНЕНО','#7fb8c9');try{SFX.cloudSyncOk();}catch(_){}
+    return true;
+  }catch(e1){
+    const _msg=(e1&&e1.message)||String(e1);
+    console.warn('[cloud] write failed:',_msg);
+    /* Шаг 2: если ошибка про signed batch — попробуем удалить и записать заново */
+    if(/signed batch|failed|EACCES|EPERM|locked/i.test(_msg)){
+      try{
+        await puter.fs.delete(CLOUD_FILE);
+      }catch(_e2){/* файла может уже не быть — ок */}
+      try{
+        await puter.fs.write(CLOUD_FILE,payload);
+        cloudLastSave=Date.now();cloudFirstDirtyAt=0;
+        cloudSetStatus(t('СОХРАНЕНО · ')+new Date().toLocaleTimeString(),'ok');
+        showCloudIndicator('☁ СОХРАНЕНО','#7fb8c9');try{SFX.cloudSyncOk();}catch(_){}
+        return true;
+      }catch(e3){
+        console.warn('[cloud] rewrite failed:',(e3&&e3.message)||e3);
+      }
+    }
+    /* Шаг 3: проверяем, живая ли сессия вообще */
+    try{
+      if(puter.auth&&puter.auth.isSignedIn){
+        const still=await puter.auth.isSignedIn();
+        if(!still){
+          currentCloudUser=null;cloudAutoSync=false;save.cloudAutoSync=false;
+          cloudSetStatus(t('СЕССИЯ ИСТЕКЛА · ВОЙДИТЕ ЗАНОВО'),'err');
+          showCloudIndicator('☁ СЕССИЯ ИСТЕКЛА','#d98a8a');
+          try{SFX.cloudSyncErr();}catch(_){}
+          return false;
+        }
+      }
+    }catch(_){}
+    /* Шаг 4: сеть/сервис — просто повторим позже */
+    cloudPendingSave=true;
     cloudSetStatus(t('ОШИБКА СОХРАНЕНИЯ · ПОВТОР...'),'err');
-    showCloudIndicator('☁ ОШИБКА','#d98a8a');SFX.cloudSyncErr();
+    showCloudIndicator('☁ ОШИБКА','#d98a8a');try{SFX.cloudSyncErr();}catch(_){}
     if(cloudAutoSync)setTimeout(()=>{if(cloudPendingSave&&currentCloudUser)scheduleCloudSave();},CLOUD_RETRY_DELAY);
     return false;
   }finally{cloudBusy=false;}
@@ -922,12 +959,27 @@ async function cloudLoadNow(){
     const keepAuto=save.cloudAutoSync;
     save=normalizeSave(data);save.cloudAutoSync=keepAuto;cloudAutoSync=keepAuto;
     persist();updateHUD();renderSettings();bgCacheDirty=true;
-    applyTheme(save.activeTheme);
+    try{applyTheme(save.activeTheme);}catch(_){}
+    try{applyLang();}catch(_){}
     cloudSetStatus(t('ЗАГРУЖЕНО · ')+new Date().toLocaleTimeString(),'ok');
-    showCloudIndicator('☁ ЗАГРУЖЕНО','#7fb8c9');SFX.cloudSyncOk();return true;
+    showCloudIndicator('☁ ЗАГРУЖЕНО','#7fb8c9');try{SFX.cloudSyncOk();}catch(_){}
+    return true;
   }catch(e){
-    console.error('Cloud load error:',e);
-    cloudSetStatus(t('НЕТ СОХРАНЕНИЯ ИЛИ ОШИБКА'),'err');return false;
+    const _msg=(e&&e.message)||String(e);
+    console.warn('[cloud] load failed:',_msg);
+    /* Проверяем, живая ли сессия */
+    try{
+      if(puter.auth&&puter.auth.isSignedIn){
+        const still=await puter.auth.isSignedIn();
+        if(!still){
+          currentCloudUser=null;cloudAutoSync=false;save.cloudAutoSync=false;
+          cloudSetStatus(t('СЕССИЯ ИСТЕКЛА · ВОЙДИТЕ ЗАНОВО'),'err');
+          return false;
+        }
+      }
+    }catch(_){}
+    cloudSetStatus(t('НЕТ СОХРАНЕНИЯ ИЛИ ОШИБКА'),'err');
+    return false;
   }finally{cloudBusy=false;}
 }
 function clearCloudTimers(){if(cloudThrottleTimer){clearTimeout(cloudThrottleTimer);cloudThrottleTimer=null;}cloudPendingSave=false;}
@@ -955,13 +1007,16 @@ function openCloudPanel(){if(currentCloudUser)showCloudActions();else showCloudA
 $('btnCloud').addEventListener('click',()=>{SFX.uiSelect();openCloudPanel();});
 $('btnCloudBack').addEventListener('click',()=>{SFX.uiClick();showMenu();});
 $('btnCloudSignIn').addEventListener('click',async()=>{
-  if(typeof puter==='undefined'){cloudSetStatus(t('СЕРВИС ОБЛАКА НЕДОСТУПЕН'),'err');SFX.denied();return;}
+  if(typeof puter==='undefined'){cloudSetStatus(t('СЕРВИС ОБЛАКА НЕДОСТУПЕН'),'err');try{SFX.denied();}catch(_){}return;}
   cloudSetStatus(t('ОТКРЫТИЕ ОКНА ВХОДА...'),'info');
   try{
+    /* Гасим старую сессию, если она висит битой */
+    try{if(puter.auth&&puter.auth.signOut)await puter.auth.signOut();}catch(_){}
     const user=await puter.auth.signIn();
     currentCloudUser=(user&&(user.username||user.email))||'user';
-    SFX.uiSelect();showCloudActions();
-  }catch(e){console.error('Cloud auth error:',e);cloudSetStatus(t('ВХОД ОТМЕНЁН ИЛИ ОШИБКА'),'err');SFX.denied();}
+    try{SFX.uiSelect();}catch(_){}
+    showCloudActions();
+  }catch(e){console.error('Cloud auth error:',e);cloudSetStatus(t('ВХОД ОТМЕНЁН ИЛИ ОШИБКА'),'err');try{SFX.denied();}catch(_){}}
 });
 $('btnCloudUpload').addEventListener('click',async()=>{
   cloudSetStatus(t('ОТПРАВКА...'),'info');
