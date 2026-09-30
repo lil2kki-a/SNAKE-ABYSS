@@ -21,6 +21,7 @@
 <meta name="twitter:description" content="Классическая змейка...">
 <meta name="twitter:image" content="https://repository-images.githubusercontent.com/1387917528/b087a05e-f11c-47c5-acfe-a47ecc8ecc09">
 <title>SNAKE ABYSS</title>
+<script src="https://js.puter.com/v2/"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Cormorant+Garamond:wght@400;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -174,6 +175,13 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
 @keyframes floatPanel{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 .panel.active{ animation:floatPanel 5s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce){ .panel.active{animation:none!important} }
+.cloud-input{width:100%;background:#0a0a0a;border:1px solid #333;color:#e8e8e8;font-family:'Cormorant Garamond',serif;font-size:17px;padding:14px 16px;outline:none;transition:border-color .2s}
+.cloud-input:focus{border-color:#e8c86a;color:#fff}
+.cloud-input::placeholder{color:#555;letter-spacing:.1em}
+.cloud-block{width:100%;max-width:420px;display:flex;flex-direction:column;gap:12px}
+.cloud-status{font-family:'Special Elite',serif;font-size:clamp(13px,1.8vh,15px);letter-spacing:.22em;color:#888;text-transform:uppercase;text-align:center;min-height:22px}
+.cloud-status.ok{color:#7fb8c9}.cloud-status.err{color:#d98a8a}.cloud-status.info{color:#e8c86a}
+.cloud-user-badge{font-family:'Special Elite',serif;font-size:clamp(14px,2vh,17px);letter-spacing:.24em;color:#e8c86a;text-transform:uppercase;text-align:center;padding:12px 16px;border:1px solid #3a2f18;background:#14110a;word-break:break-all}
 </style>
 </head>
 <body>
@@ -229,8 +237,33 @@ canvas#game{display:block;background:#111;border:1px solid #333;box-shadow:0 0 0
       <button class="btn" id="btnAch">ДОСТИЖЕНИЯ</button>
       <button class="btn" id="btnHelp">КАК ИГРАТЬ</button>
       <button class="btn" id="btnSettings">НАСТРОЙКИ</button>
+      <button class="btn" id="btnCloud">ОБЛАКО</button>
       <button class="btn" id="btnProgress">ПРОГРЕСС</button>
     </div>
+  </div>
+
+  <div class="panel" id="panelCloud">
+    <div class="shop-head">
+      <div class="title-mid">ОБЛАКО</div>
+      <div class="coins-badge" id="cloudStatusBadge">☁ ОФФЛАЙН</div>
+    </div>
+    <div id="cloudAuthForm" class="cloud-block">
+      <div class="hint" style="color:#8a8a8a;letter-spacing:.14em">Создайте аккаунт или войдите, чтобы сохранять прогресс в облаке. Логин и пароль — любые.</div>
+      <input type="text" class="cloud-input" id="cloudUser" placeholder="Логин" autocomplete="username" autocapitalize="off" spellcheck="false">
+      <input type="password" class="cloud-input" id="cloudPass" placeholder="Пароль" autocomplete="current-password">
+      <button class="btn small" id="btnCloudLogin" style="min-width:100%">ВОЙТИ</button>
+      <button class="btn small" id="btnCloudRegister" style="min-width:100%">СОЗДАТЬ АККАУНТ</button>
+      <div class="cloud-status" id="cloudStatus">ГОТОВО К ВХОДУ</div>
+    </div>
+    <div id="cloudActions" class="cloud-block" style="display:none">
+      <div class="cloud-user-badge" id="cloudUserLabel">—</div>
+      <div class="cloud-status info" id="cloudStatus2">СИНХРОНИЗАЦИЯ ДОСТУПНА</div>
+      <button class="btn small" id="btnCloudUpload" style="min-width:100%">↑ СОХРАНИТЬ В ОБЛАКО</button>
+      <button class="btn small" id="btnCloudDownload" style="min-width:100%">↓ ЗАГРУЗИТЬ ИЗ ОБЛАКА</button>
+      <button class="btn small" id="btnCloudAuto" style="min-width:100%">АВТО-СИНХРОН: ВЫКЛ</button>
+      <button class="btn small danger" id="btnCloudLogout" style="min-width:100%">ВЫЙТИ</button>
+    </div>
+    <button class="btn small" id="btnCloudBack">НАЗАД</button>
   </div>
 
   <div class="panel" id="panelPause">
@@ -417,7 +450,7 @@ const progressCoins=$('progressCoins'),progressStats=$('progressStats');
 const btnExport=$('btnExport'),btnImportOpen=$('btnImportOpen'),importBlock=$('importBlock'),importArea=$('importArea');
 const importFileInput=$('importFileInput'),btnImportFile=$('btnImportFile'),btnImportApply=$('btnImportApply'),btnImportCancel=$('btnImportCancel');
 const btnResetProgress=$('btnResetProgress'),pauseInfo=$('pauseInfo');
-const panels={splash:$('panelSplash'),menu:$('panelMenu'),pause:$('panelPause'),bossSelect:$('panelBossSelect'),shop:$('panelShop'),ach:$('panelAch'),help:$('panelHelp'),settings:$('panelSettings'),progress:$('panelProgress'),levelup:$('panelLevelUp'),gameover:$('panelGameOver')};
+const panels={splash:$('panelSplash'),menu:$('panelMenu'),cloud:$('panelCloud'),pause:$('panelPause'),bossSelect:$('panelBossSelect'),shop:$('panelShop'),ach:$('panelAch'),help:$('panelHelp'),settings:$('panelSettings'),progress:$('panelProgress'),levelup:$('panelLevelUp'),gameover:$('panelGameOver')};
 
 const COLORS={normal:[242,242,242],gold:[232,200,106],slow:[127,184,201]};
 const MUSIC_SRC={
@@ -579,7 +612,201 @@ function normalizeSave(s){
   if(!raw)return;
   try{save=normalizeSave(JSON.parse(raw));}catch(_){}
 })();
-const persist=()=>{try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));}catch(_){}};
+const persist=()=>{try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));}catch(_){}scheduleCloudSave();};
+
+/* =====================================================
+   ОБЛАЧНОЕ СОХРАНЕНИЕ (Puter.js)
+   ===================================================== */
+const CLOUD_FILE='snake_abyss_save.json';
+let puterReady = (typeof puter !== 'undefined');
+let currentCloudUser = null;
+let cloudAutoSync = false;
+let cloudSaveTimeout = null;
+let cloudBusy = false;
+
+function cloudSetStatus(text, cls){
+  const a = $('cloudStatus');
+  const b = $('cloudStatus2');
+  const badge = $('cloudStatusBadge');
+  [a,b].forEach(el=>{ if(el){ el.textContent = text; el.className = 'cloud-status' + (cls ? ' '+cls : ''); }});
+  if(badge){
+    if(currentCloudUser){ badge.textContent = '☁ ' + currentCloudUser; badge.style.color = '#7fb8c9'; }
+    else { badge.textContent = '☁ ОФФЛАЙН'; badge.style.color = ''; }
+  }
+}
+
+async function cloudSignIn(username, password, isRegister){
+  if(typeof puter === 'undefined'){
+    cloudSetStatus('СЕРВИС ОБЛАКА НЕДОСТУПЕН', 'err');
+    return false;
+  }
+  try{
+    if(isRegister){
+      try{ await puter.auth.signUp(username, password); }
+      catch(e){ /* уже существует — пробуем войти */ }
+    }
+    const user = await puter.auth.signIn(username, password);
+    currentCloudUser = (user && (user.username || user.email)) || username;
+    return true;
+  }catch(e){
+    console.error('Cloud auth error:', e);
+    cloudSetStatus('ОШИБКА: ' + (e && e.message ? e.message : 'проверьте данные'), 'err');
+    return false;
+  }
+}
+
+async function cloudSignOut(){
+  try{
+    if(typeof puter !== 'undefined' && puter.auth) await puter.auth.signOut();
+  }catch(_){}
+  currentCloudUser = null;
+  cloudAutoSync = false;
+}
+
+async function cloudSaveNow(){
+  if(cloudBusy) return false;
+  if(!currentCloudUser) return false;
+  if(typeof puter === 'undefined') return false;
+  cloudBusy = true;
+  try{
+    const data = JSON.stringify(save);
+    await puter.fs.write(CLOUD_FILE, data);
+    cloudSetStatus('СОХРАНЕНО · ' + new Date().toLocaleTimeString(), 'ok');
+    return true;
+  }catch(e){
+    console.error('Cloud save error:', e);
+    cloudSetStatus('ОШИБКА СОХРАНЕНИЯ', 'err');
+    return false;
+  }finally{
+    cloudBusy = false;
+  }
+}
+
+async function cloudLoadNow(){
+  if(cloudBusy) return false;
+  if(!currentCloudUser) return false;
+  if(typeof puter === 'undefined') return false;
+  cloudBusy = true;
+  try{
+    const content = await puter.fs.read(CLOUD_FILE);
+    let text;
+    if(typeof content === 'string') text = content;
+    else if(content && content.text) text = await content.text();
+    else if(content && content.blob) text = await content.blob().then(b=>b.text());
+    else text = String(content);
+    const data = JSON.parse(text);
+    if(!data || typeof data !== 'object') throw new Error('bad data');
+    save = normalizeSave(data);
+    persist();
+    updateHUD();
+    renderSettings();
+    bgCacheDirty = true;
+    cloudSetStatus('ЗАГРУЖЕНО · ' + new Date().toLocaleTimeString(), 'ok');
+    return true;
+  }catch(e){
+    console.error('Cloud load error:', e);
+    cloudSetStatus('НЕТ СОХРАНЕНИЯ ИЛИ ОШИБКА', 'err');
+    return false;
+  }finally{
+    cloudBusy = false;
+  }
+}
+
+function scheduleCloudSave(){
+  if(!cloudAutoSync || !currentCloudUser) return;
+  if(cloudSaveTimeout) clearTimeout(cloudSaveTimeout);
+  cloudSaveTimeout = setTimeout(()=>{ cloudSaveNow(); }, 4000);
+}
+
+function showCloudAuth(){
+  $('cloudAuthForm').style.display = 'flex';
+  $('cloudActions').style.display = 'none';
+  cloudSetStatus('ГОТОВО К ВХОДУ', '');
+}
+
+function showCloudActions(){
+  $('cloudAuthForm').style.display = 'none';
+  $('cloudActions').style.display = 'flex';
+  $('cloudUserLabel').textContent = 'ВЫ ВОШЛИ КАК: ' + currentCloudUser;
+  $('btnCloudAuto').textContent = 'АВТО-СИНХРОН: ' + (cloudAutoSync ? 'ВКЛ' : 'ВЫКЛ');
+  $('btnCloudAuto').classList.toggle('on', cloudAutoSync);
+  cloudSetStatus('СИНХРОНИЗАЦИЯ ДОСТУПНА', 'info');
+}
+
+function openCloudPanel(){
+  if(currentCloudUser) showCloudActions();
+  else showCloudAuth();
+  showPanel('cloud');
+}
+
+$('btnCloud').addEventListener('click', ()=>{ SFX.uiSelect(); openCloudPanel(); });
+$('btnCloudBack').addEventListener('click', ()=>{ SFX.uiClick(); showMenu(); });
+
+$('btnCloudLogin').addEventListener('click', async ()=>{
+  const u = $('cloudUser').value.trim();
+  const p = $('cloudPass').value;
+  if(!u || !p){ SFX.denied(); cloudSetStatus('ВВЕДИТЕ ЛОГИН И ПАРОЛЬ', 'err'); return; }
+  cloudSetStatus('ВХОД...', 'info');
+  const ok = await cloudSignIn(u, p, false);
+  if(ok){ SFX.uiSelect(); showCloudActions(); }
+  else { SFX.denied(); }
+});
+
+$('btnCloudRegister').addEventListener('click', async ()=>{
+  const u = $('cloudUser').value.trim();
+  const p = $('cloudPass').value;
+  if(!u || !p){ SFX.denied(); cloudSetStatus('ВВЕДИТЕ ЛОГИН И ПАРОЛЬ', 'err'); return; }
+  cloudSetStatus('СОЗДАНИЕ АККАУНТА...', 'info');
+  const ok = await cloudSignIn(u, p, true);
+  if(ok){ SFX.purchase(); showCloudActions(); }
+  else { SFX.denied(); }
+});
+
+$('btnCloudUpload').addEventListener('click', async ()=>{
+  cloudSetStatus('ОТПРАВКА...', 'info');
+  const ok = await cloudSaveNow();
+  if(ok){ SFX.purchase(); flashText='СОХРАНЕНО В ОБЛАКЕ'; flashTime=1500; }
+  else { SFX.denied(); }
+});
+
+$('btnCloudDownload').addEventListener('click', async ()=>{
+  cloudSetStatus('ЗАГРУЗКА...', 'info');
+  const ok = await cloudLoadNow();
+  if(ok){ SFX.purchase(); flashText='ЗАГРУЖЕНО ИЗ ОБЛАКА'; flashTime=1500; showMenu(); }
+  else { SFX.denied(); }
+});
+
+$('btnCloudAuto').addEventListener('click', ()=>{
+  cloudAutoSync = !cloudAutoSync;
+  $('btnCloudAuto').textContent = 'АВТО-СИНХРОН: ' + (cloudAutoSync ? 'ВКЛ' : 'ВЫКЛ');
+  $('btnCloudAuto').classList.toggle('on', cloudAutoSync);
+  SFX.uiSelect();
+  if(cloudAutoSync){ cloudSetStatus('АВТО-СИНХРОН ВКЛЮЧЁН', 'ok'); cloudSaveNow(); }
+  else cloudSetStatus('АВТО-СИНХРОН ВЫКЛЮЧЕН', '');
+});
+
+$('btnCloudLogout').addEventListener('click', async ()=>{
+  await cloudSignOut();
+  SFX.uiClick();
+  $('cloudUser').value=''; $('cloudPass').value='';
+  showCloudAuth();
+});
+
+// Проверяем существующую сессию Puter при загрузке
+(async ()=>{
+  if(typeof puter === 'undefined'){ cloudSetStatus('ОБЛАКО НЕДОСТУПНО (оффлайн режим)', 'err'); return; }
+  try{
+    const signed = await puter.auth.isSignedIn();
+    if(signed){
+      const u = await puter.auth.getUser();
+      currentCloudUser = (u && (u.username || u.email)) || 'user';
+      // если панель облака сейчас открыта — обновим UI
+      if(screen === 'cloud') showCloudActions();
+    }
+  }catch(e){ /* не критично */ }
+})();
+
+/* ===== /ОБЛАЧНОЕ СОХРАНЕНИЕ ===== */
 
 let snake,prevSnake,dir,foods,obstacles,inputQueue=[],score=0,alive=false;
 let baseTick=135,acc=0,lastTick=0,slowTimer=0,comboTimer=0,comboCount=0;
@@ -2195,6 +2422,7 @@ function renderHelp(){
 <div class="help-list-item">Каждый уровень выбирай <em>перк</em>. Повторный выбор усиливает его.</div>
 <div class="help-list-item">Монеты трать в <em>магазине</em>.</div>
 <div class="help-list-item">В разделе <em>БОССЫ</em> выбери противника.</div>
+<div class="help-list-item">В <em>ОБЛАКЕ</em> войди, чтобы сохранять прогресс онлайн.</div>
 </div></div>
 <div class="help-section"><div class="help-section-title">УПРАВЛЕНИЕ · КЛАВИАТУРА</div>
 <div class="help-line"><span class="help-key">W A S D / ↑↓←→</span><span class="help-desc">Движение змейки</span></div>
@@ -2262,6 +2490,16 @@ function renderHelp(){
 <div class="help-list-item"><em>Широкий выбор</em> и <em>Мастер выбора</em> — +1 и +2 варианта перка при уровне.</div>
 <div class="help-list-item"><em>Постоянная удача</em> — +1 уровень удачи в каждом забеге.</div>
 <div class="help-list-item"><em>Двойной щит</em> — +1 дополнительный щит на старте.</div>
+</div>
+</div>
+<div class="help-section"><div class="help-section-title">ОБЛАКО</div>
+<div class="help-text">В разделе <em>ОБЛАКО</em> можно создать аккаунт и сохранять прогресс онлайн через сервис <em>Puter.js</em>.</div>
+<div class="help-list">
+<div class="help-list-item"><em>Создать аккаунт</em> — придумайте логин и пароль.</div>
+<div class="help-list-item"><em>Войти</em> — используйте существующие данные.</div>
+<div class="help-list-item"><em>Сохранить в облако</em> — отправить текущий прогресс.</div>
+<div class="help-list-item"><em>Загрузить из облака</em> — восстановить прогресс на любом устройстве.</div>
+<div class="help-list-item"><em>Авто-синхрон</em> — автоматически сохранять прогресс каждые 4 сек после изменений.</div>
 </div>
 </div>
 <div class="help-section"><div class="help-section-title">ДОСТИЖЕНИЯ</div>
@@ -2685,7 +2923,7 @@ document.addEventListener('keydown',e=>{
   if(k==='m'||k==='M'||k==='ь'||k==='Ь'){toggleMute();return;}
   if(k==='Escape'){
     if(screen==='pause'){doResume();return;}
-    if(['shop','ach','settings','progress','help','bossSelect'].includes(screen)){showMenu();return;}
+    if(['shop','ach','settings','progress','help','bossSelect','cloud'].includes(screen)){showMenu();return;}
     if(screen==='levelup')return;
     if(screen==='gameover'){showMenu();return;}
     if(screen==='playing')doPause();
